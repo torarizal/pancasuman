@@ -31,7 +31,7 @@
             @if($series->cover_image)
                 <div class="mb-3">
                     <p class="text-xs text-slate-500 mb-1">Sampul saat ini:</p>
-                    <img src="{{ asset('storage/' . $series->cover_image) }}" alt="Sampul saat ini" class="w-48 h-32 object-cover rounded-lg border border-slate-200 shadow-xs">
+                    <img src="{{ asset('storage/' . $series->cover_image) }}" alt="Sampul saat ini" loading="lazy" decoding="async" class="w-48 h-32 object-cover rounded-lg border border-slate-200 shadow-xs">
                 </div>
             @endif
             <input type="file" name="cover_image" id="cover_image_input" accept="image/*" class="w-full border border-slate-300 p-2 rounded focus:outline-none focus:border-blue-500 bg-white text-sm file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">

@@ -86,7 +86,7 @@
         {{-- Gambar Sampul / Featured Image --}}
         @if($post->featured_image)
         <div class="mb-8 overflow-hidden rounded-2xl border border-slate-200/80 shadow-xs">
-            <img src="{{ asset('storage/' . $post->featured_image) }}" alt="{{ $post->title }}" class="w-full max-h-[500px] object-cover object-center">
+            <img src="{{ asset('storage/' . $post->featured_image) }}" alt="{{ $post->title }}" fetchpriority="high" decoding="async" class="w-full max-h-[500px] object-cover object-center">
         </div>
         @endif
 

@@ -2,33 +2,44 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
 use App\Models\Category;
-use App\Models\Series;
-use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\Gallery;
 use App\Models\Page;
+use App\Models\Post;
+use App\Models\Series;
+use App\Models\User;
+use App\Models\Video;
+use Illuminate\Http\Request;
 
 class FrontendController extends Controller
 {
+    // Halaman Galeri Foto Kegiatan & Video Dokumentasi
+    public function gallery(Request $request)
+    {
+        $galleries = Gallery::with('user')->latest('activity_date')->latest()->paginate(12);
+        $videos = Video::with('user')->latest()->get();
+
+        return view('frontend.gallery', compact('galleries', 'videos'));
+    }
+
     // Halaman Utama / Beranda Portal
     public function index()
     {
         // Ambil artikel yang statusnya 'published', urutkan dari yang terbaru
         $posts = Post::with(['category', 'series', 'author'])
-                    ->where('status', 'published')
-                    ->latest('published_at')
-                    ->paginate(9);
+            ->where('status', 'published')
+            ->latest('published_at')
+            ->paginate(9);
 
         // Ambil daftar kategori aktif untuk widget menu rubrik
         $categories = Category::where('status', 'active')->get();
 
         // Ambil beberapa Master Series terbaru
         $seriesList = Series::with(['category', 'author'])
-                            ->where('status', 'active')
-                            ->latest()
-                            ->take(5)
-                            ->get();
+            ->where('status', 'active')
+            ->latest()
+            ->take(5)
+            ->get();
 
         return view('frontend.index', compact('posts', 'categories', 'seriesList'));
     }
@@ -37,17 +48,17 @@ class FrontendController extends Controller
     public function show($slug)
     {
         $post = Post::with(['category', 'series', 'author'])
-                    ->where('slug', $slug)
-                    ->where('status', 'published')
-                    ->firstOrFail();
+            ->where('slug', $slug)
+            ->where('status', 'published')
+            ->firstOrFail();
 
         // Ambil artikel lain dalam series yang sama (jika ini bagian dari cerpen bersambung)
         $seriesPosts = [];
         if ($post->series_id) {
             $seriesPosts = Post::where('series_id', $post->series_id)
-                                ->where('status', 'published')
-                                ->orderBy('volume_number', 'asc')
-                                ->get();
+                ->where('status', 'published')
+                ->orderBy('volume_number', 'asc')
+                ->get();
         }
 
         return view('frontend.show', compact('post', 'seriesPosts'));
@@ -57,12 +68,12 @@ class FrontendController extends Controller
     public function category($slug)
     {
         $category = Category::where('slug', $slug)->where('status', 'active')->firstOrFail();
-        
+
         $posts = Post::with(['series', 'author'])
-                    ->where('category_id', $category->id)
-                    ->where('status', 'published')
-                    ->latest('published_at')
-                    ->paginate(9);
+            ->where('category_id', $category->id)
+            ->where('status', 'published')
+            ->latest('published_at')
+            ->paginate(9);
 
         $categories = Category::where('status', 'active')->get();
 
@@ -73,9 +84,9 @@ class FrontendController extends Controller
     public function seriesIndex()
     {
         $seriesList = Series::with(['category', 'author'])
-                            ->where('status', 'active')
-                            ->latest()
-                            ->paginate(9);
+            ->where('status', 'active')
+            ->latest()
+            ->paginate(9);
 
         return view('frontend.series-index', compact('seriesList'));
     }
@@ -84,11 +95,11 @@ class FrontendController extends Controller
     public function seriesShow($slug)
     {
         $series = Series::with(['category', 'author'])->where('slug', $slug)->firstOrFail();
-        
+
         $posts = Post::where('series_id', $series->id)
-                    ->where('status', 'published')
-                    ->orderBy('volume_number', 'asc')
-                    ->paginate(10);
+            ->where('status', 'published')
+            ->orderBy('volume_number', 'asc')
+            ->paginate(10);
 
         return view('frontend.series-show', compact('series', 'posts'));
     }
@@ -102,9 +113,9 @@ class FrontendController extends Controller
         // 1. Filter Pencarian Kata Kunci
         if ($request->filled('search')) {
             $search = $request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('title', 'like', '%' . $search . '%')
-                  ->orWhere('body', 'like', '%' . $search . '%');
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', '%'.$search.'%')
+                    ->orWhere('body', 'like', '%'.$search.'%');
             });
         }
 
@@ -115,7 +126,7 @@ class FrontendController extends Controller
 
         // Pagination 12 item per halaman dan bawa query string-nya
         $posts = $query->latest('published_at')->paginate(12)->withQueryString();
-        
+
         // Ambil daftar kategori aktif untuk pilihan filter di view
         $categories = Category::where('status', 'active')->get();
 
@@ -126,9 +137,9 @@ class FrontendController extends Controller
     public function authors()
     {
         // Ambil user yang sudah pernah mempublikasikan minimal 1 tulisan
-        $authors = User::whereHas('posts', function($query) {
+        $authors = User::whereHas('posts', function ($query) {
             $query->where('status', 'published');
-        })->withCount(['posts' => function($query) {
+        })->withCount(['posts' => function ($query) {
             $query->where('status', 'published');
         }])->orderBy('posts_count', 'desc')->paginate(12);
 
@@ -139,32 +150,35 @@ class FrontendController extends Controller
     public function authorShow($id)
     {
         $author = User::findOrFail($id);
-        
+
         $posts = Post::with(['category', 'series'])
-                    ->where('user_id', $id)
-                    ->where('status', 'published')
-                    ->latest('published_at')
-                    ->paginate(9);
+            ->where('user_id', $id)
+            ->where('status', 'published')
+            ->latest('published_at')
+            ->paginate(9);
 
         return view('frontend.author-show', compact('author', 'posts'));
     }
 
     // Halaman Tentang Kami
-   public function about()
+    public function about()
     {
         $page = Page::where('slug', 'tentang-kami')->first();
+
         return view('frontend.about', compact('page'));
     }
 
     public function contact()
     {
         $page = Page::where('slug', 'kontak')->first();
+
         return view('frontend.contact', compact('page'));
     }
 
     public function cakNun()
     {
         $page = Page::where('slug', 'biografi-cak-nun')->first();
+
         return view('frontend.caknun', compact('page'));
     }
 
@@ -173,17 +187,17 @@ class FrontendController extends Controller
     {
         // Sesuaikan nama rubriknya, misal slug kategori artikel adalah 'artikel'
         $query = Post::with(['category', 'series', 'author'])
-                    ->where('status', 'published')
-                    ->whereHas('category', function($q) {
-                        $q->where('slug', 'artikel'); // Ganti 'artikel' sesuai slug rubrik artikel di database kamu
-                    });
+            ->where('status', 'published')
+            ->whereHas('category', function ($q) {
+                $q->where('slug', 'artikel'); // Ganti 'artikel' sesuai slug rubrik artikel di database kamu
+            });
 
         // Tetap dukung fitur pencarian di dalam halaman artikel
         if ($request->filled('search')) {
             $search = $request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('title', 'like', '%' . $search . '%')
-                  ->orWhere('body', 'like', '%' . $search . '%');
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', '%'.$search.'%')
+                    ->orWhere('body', 'like', '%'.$search.'%');
             });
         }
 

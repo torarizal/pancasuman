@@ -29,7 +29,7 @@
         <div class="card-lift bg-white border border-slate-200/80 hover:border-purple-300 rounded-3xl overflow-hidden shadow-xs flex flex-col justify-between group transition-all duration-300">
             @if($series->cover_image)
             <div class="h-48 w-full overflow-hidden bg-purple-950/5">
-                <img src="{{ asset('storage/' . $series->cover_image) }}" alt="{{ $series->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <img src="{{ asset('storage/' . $series->cover_image) }}" alt="{{ $series->title }}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
             </div>
             @endif
             <div class="p-7 flex flex-col justify-between flex-1">

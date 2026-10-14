@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSeriesRequest;
 use App\Http\Requests\UpdateSeriesRequest;
-use App\Models\Series;
 use App\Models\Category;
+use App\Models\Series;
+use App\Services\ImageOptimizer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,9 +20,9 @@ class SeriesController extends Controller
             $series = Series::with(['category', 'author'])->latest()->paginate(10);
         } else {
             $series = Series::with(['category', 'author'])
-                        ->where('user_id', Auth::id())
-                        ->latest()
-                        ->paginate(10);
+                ->where('user_id', Auth::id())
+                ->latest()
+                ->paginate(10);
         }
 
         return view('admin.series.index', compact('series'));
@@ -30,6 +31,7 @@ class SeriesController extends Controller
     public function create()
     {
         $categories = Category::where('status', 'active')->get();
+
         return view('admin.series.create', compact('categories'));
     }
 
@@ -40,9 +42,14 @@ class SeriesController extends Controller
             unset($data['slug']);
         }
 
-        // Upload Cover Image jika ada
+        // Upload & Kompres Otomatis Cover Image jika ada
         if ($request->hasFile('cover_image')) {
-            $data['cover_image'] = $request->file('cover_image')->store('series', 'public');
+            $data['cover_image'] = ImageOptimizer::optimizeAndStore(
+                $request->file('cover_image'),
+                'series',
+                maxWidth: 1200,
+                quality: 80
+            );
         }
 
         $data['user_id'] = Auth::id();
@@ -60,6 +67,7 @@ class SeriesController extends Controller
         }
 
         $categories = Category::where('status', 'active')->get();
+
         return view('admin.series.edit', compact('series', 'categories'));
     }
 
@@ -74,12 +82,17 @@ class SeriesController extends Controller
             unset($data['slug']);
         }
 
-        // Update Cover Image jika ada file baru diunggah
+        // Update & Kompres Otomatis Cover Image jika ada file baru diunggah
         if ($request->hasFile('cover_image')) {
             if ($series->cover_image && Storage::disk('public')->exists($series->cover_image)) {
                 Storage::disk('public')->delete($series->cover_image);
             }
-            $data['cover_image'] = $request->file('cover_image')->store('series', 'public');
+            $data['cover_image'] = ImageOptimizer::optimizeAndStore(
+                $request->file('cover_image'),
+                'series',
+                maxWidth: 1200,
+                quality: 80
+            );
         }
 
         $series->update($data);

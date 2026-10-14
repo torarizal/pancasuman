@@ -37,7 +37,7 @@
                     <td class="p-3">
                         <div class="flex items-center gap-3">
                             @if($item->cover_image)
-                                <img src="{{ asset('storage/' . $item->cover_image) }}" alt="" class="w-10 h-10 rounded-lg object-cover border border-slate-200 shrink-0">
+                                <img src="{{ asset('storage/' . $item->cover_image) }}" alt="" loading="lazy" decoding="async" class="w-10 h-10 rounded-lg object-cover border border-slate-200 shrink-0">
                             @endif
                             <div class="font-semibold text-slate-800">{{ $item->title }}</div>
                         </div>

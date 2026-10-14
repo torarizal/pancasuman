@@ -70,7 +70,7 @@
                 <article class="card-lift bg-white border border-slate-200/80 hover:border-blue-300 rounded-2xl overflow-hidden shadow-xs flex flex-col justify-between group transition-all duration-300">
                     @if($post->featured_image)
                     <div class="h-48 w-full overflow-hidden bg-slate-100">
-                        <img src="{{ asset('storage/' . $post->featured_image) }}" alt="{{ $post->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <img src="{{ asset('storage/' . $post->featured_image) }}" alt="{{ $post->title }}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </div>
                     @endif
                     <div class="p-6">
@@ -175,7 +175,7 @@
                     @forelse($seriesList as $series)
                     <div class="p-3 rounded-xl bg-slate-50/70 hover:bg-purple-50/50 border border-slate-100 hover:border-purple-200 transition-all group flex items-center gap-3">
                         @if($series->cover_image)
-                            <img src="{{ asset('storage/' . $series->cover_image) }}" alt="{{ $series->title }}" class="w-12 h-12 rounded-lg object-cover shrink-0 border border-slate-200/80">
+                            <img src="{{ asset('storage/' . $series->cover_image) }}" alt="{{ $series->title }}" loading="lazy" decoding="async" class="w-12 h-12 rounded-lg object-cover shrink-0 border border-slate-200/80">
                         @endif
                         <div class="min-w-0 flex-1">
                             <a href="{{ route('series.show', $series->slug) }}" class="block font-semibold text-slate-800 group-hover:text-purple-700 transition text-sm truncate">

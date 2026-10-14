@@ -22,7 +22,7 @@
     <div class="bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-10 shadow-xs relative overflow-hidden">
         @if($series->cover_image)
         <div class="mb-6 overflow-hidden rounded-2xl border border-slate-200/80 shadow-xs">
-            <img src="{{ asset('storage/' . $series->cover_image) }}" alt="{{ $series->title }}" class="w-full max-h-[400px] object-cover object-center">
+            <img src="{{ asset('storage/' . $series->cover_image) }}" alt="{{ $series->title }}" fetchpriority="high" decoding="async" class="w-full max-h-[400px] object-cover object-center">
         </div>
         @endif
         <div class="flex flex-wrap items-center gap-3 mb-4">

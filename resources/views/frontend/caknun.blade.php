@@ -16,7 +16,7 @@
         <div class="relative w-48 h-48 sm:w-56 sm:h-56 mx-auto">
             <div class="w-full h-full rounded-3xl overflow-hidden shadow-xl ring-4 ring-white border border-slate-200/70 bg-gradient-to-tr from-slate-800 to-slate-900 flex items-center justify-center">
                 @if($page && $page->image)
-                    <img src="{{ asset('storage/' . $page->image) }}" alt="Emha Ainun Nadjib" class="w-full h-full object-cover">
+                    <img src="{{ asset('storage/' . $page->image) }}" alt="Emha Ainun Nadjib" fetchpriority="high" decoding="async" class="w-full h-full object-cover">
                 @else
                     <div class="text-center p-6 text-white space-y-2">
                         <div class="w-16 h-16 mx-auto rounded-full bg-white/10 flex items-center justify-center text-3xl font-serif font-black text-amber-300">
