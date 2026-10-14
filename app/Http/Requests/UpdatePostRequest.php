@@ -21,9 +21,10 @@ class UpdatePostRequest extends FormRequest
             'slug' => 'nullable|string|max:255|unique:posts,slug,' . $this->route('post')->id,
             'excerpt' => 'nullable|string',
             'body' => 'required|string',
+            'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:5120',
             'status' => 'required|in:draft,published',
             'meta_title' => 'nullable|string|max:60',
             'meta_description' => 'nullable|string|max:160',
-            ];
+        ];
     }
 }

@@ -7,7 +7,8 @@ use App\Http\Requests\StoreSeriesRequest;
 use App\Http\Requests\UpdateSeriesRequest;
 use App\Models\Series;
 use App\Models\Category;
-use Illuminate\Support\Facades\Auth; // <-- PASTIKAN INI ADA DI ATAS!
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class SeriesController extends Controller
 {
@@ -39,6 +40,11 @@ class SeriesController extends Controller
             unset($data['slug']);
         }
 
+        // Upload Cover Image jika ada
+        if ($request->hasFile('cover_image')) {
+            $data['cover_image'] = $request->file('cover_image')->store('series', 'public');
+        }
+
         $data['user_id'] = Auth::id();
 
         Series::create($data);
@@ -68,6 +74,14 @@ class SeriesController extends Controller
             unset($data['slug']);
         }
 
+        // Update Cover Image jika ada file baru diunggah
+        if ($request->hasFile('cover_image')) {
+            if ($series->cover_image && Storage::disk('public')->exists($series->cover_image)) {
+                Storage::disk('public')->delete($series->cover_image);
+            }
+            $data['cover_image'] = $request->file('cover_image')->store('series', 'public');
+        }
+
         $series->update($data);
 
         return redirect()->route('admin.series.index')
@@ -78,6 +92,11 @@ class SeriesController extends Controller
     {
         if (Auth::user()->role !== 'developer' && $series->user_id !== Auth::id()) {
             abort(403, 'Anda tidak memiliki hak akses untuk menghapus series ini.');
+        }
+
+        // Hapus file gambar cover jika ada di storage
+        if ($series->cover_image && Storage::disk('public')->exists($series->cover_image)) {
+            Storage::disk('public')->delete($series->cover_image);
         }
 
         $series->delete();

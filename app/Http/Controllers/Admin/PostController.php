@@ -9,6 +9,7 @@ use App\Models\Post;
 use App\Models\Category;
 use App\Models\Series;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -100,6 +101,11 @@ class PostController extends Controller
         unset($data['slug']);
     }
 
+    // Upload Featured Image jika ada
+    if ($request->hasFile('featured_image')) {
+        $data['featured_image'] = $request->file('featured_image')->store('posts', 'public');
+    }
+
     $data['user_id'] = Auth::id();
 
     Post::create($data);
@@ -156,6 +162,14 @@ class PostController extends Controller
         unset($data['slug']);
     }
 
+    // Update Featured Image jika ada file baru diunggah
+    if ($request->hasFile('featured_image')) {
+        if ($post->featured_image && Storage::disk('public')->exists($post->featured_image)) {
+            Storage::disk('public')->delete($post->featured_image);
+        }
+        $data['featured_image'] = $request->file('featured_image')->store('posts', 'public');
+    }
+
     $post->update($data);
 
     return redirect()->route('admin.posts.index')
@@ -167,6 +181,11 @@ class PostController extends Controller
         // KEAMANAN: Tolak akses (403) jika mencoba menghapus artikel milik orang lain
         if (!$this->userIsDeveloper() && $post->user_id !== Auth::id()) {
             abort(403, 'Anda tidak memiliki hak akses untuk menghapus tulisan ini.');
+        }
+
+        // Hapus file gambar jika ada di storage
+        if ($post->featured_image && Storage::disk('public')->exists($post->featured_image)) {
+            Storage::disk('public')->delete($post->featured_image);
         }
 
         $post->delete();

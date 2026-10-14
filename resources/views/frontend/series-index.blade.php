@@ -3,44 +3,83 @@
 @section('title', 'Daftar Master Series - Pancasuman')
 
 @section('content')
-<div class="space-y-6">
-    <div class="border-b border-slate-200 pb-4">
-        <h1 class="text-2xl font-black text-slate-900">Master Series / Cerpen Bersambung</h1>
-        <p class="text-sm text-slate-500">Kumpulan seri tulisan dan karya bersambung yang dikurasi.</p>
+<div class="space-y-8">
+    
+    {{-- Header Banner Series --}}
+    <div class="bg-gradient-to-br from-purple-950 via-slate-900 to-indigo-950 text-white rounded-3xl p-8 sm:p-12 shadow-xl border border-purple-900/40 relative overflow-hidden">
+        <div class="absolute -top-24 -right-24 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl pointer-events-none"></div>
+        
+        <div class="relative z-10 max-w-2xl space-y-3">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-semibold text-purple-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                <span>Karya Bersambung</span>
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-black font-serif tracking-tight text-white">Master Series & Cerpen Bersambung</h1>
+            <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                Jelajahi kumpulan seri tulisan tematik, novel bersambung, dan esai bertahap yang dikurasi khusus oleh penulis Pancasuman.
+            </p>
+        </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    {{-- Grid Series --}}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @forelse($seriesList as $series)
-        <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm hover:shadow-md transition flex flex-col justify-between">
-            <div>
-                <div class="flex items-center space-x-2 mb-3">
-                    <span class="bg-purple-50 text-purple-700 text-xs font-semibold px-2.5 py-1 rounded-full">
-                        {{ $series->category->name ?? 'Umum' }}
-                    </span>
-                </div>
-                <h2 class="text-lg font-bold text-slate-900 mb-2">
-                    <a href="{{ route('series.show', $series->slug) }}" class="hover:text-blue-600 transition">
-                        {{ $series->title }}
-                    </a>
-                </h2>
-                <p class="text-slate-600 text-sm line-clamp-3 mb-4">
-                    {{ $series->description ?? 'Tidak ada deskripsi.' }}
-                </p>
+        <div class="card-lift bg-white border border-slate-200/80 hover:border-purple-300 rounded-3xl overflow-hidden shadow-xs flex flex-col justify-between group transition-all duration-300">
+            @if($series->cover_image)
+            <div class="h-48 w-full overflow-hidden bg-purple-950/5">
+                <img src="{{ asset('storage/' . $series->cover_image) }}" alt="{{ $series->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
             </div>
-            <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-                <span>Oleh <strong class="text-slate-700">{{ $series->author->name ?? 'Anonim' }}</strong></span>
-                <a href="{{ route('series.show', $series->slug) }}" class="text-blue-600 font-semibold hover:underline">Lihat Bab &rarr;</a>
+            @endif
+            <div class="p-7 flex flex-col justify-between flex-1">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <span class="badge-series text-xs font-semibold px-3 py-1 rounded-full">
+                            {{ $series->category->name ?? 'Umum' }}
+                        </span>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold text-slate-900 group-hover:text-purple-700 transition mb-3 leading-snug">
+                        <a href="{{ route('series.show', $series->slug) }}">
+                            {{ $series->title }}
+                        </a>
+                    </h3>
+                    
+                    <p class="text-slate-600 text-sm line-clamp-3 leading-relaxed mb-6">
+                        {{ $series->description ?? 'Tidak ada deskripsi.' }}
+                    </p>
+                </div>
+                
+                <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                    <div class="flex items-center gap-2">
+                        <div class="w-6 h-6 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-600 text-white font-bold flex items-center justify-center text-[10px]">
+                            {{ substr($series->author->name ?? 'A', 0, 1) }}
+                        </div>
+                        <span class="font-medium text-slate-700 truncate max-w-[120px]">{{ $series->author->name ?? 'Anonim' }}</span>
+                    </div>
+                    <a href="{{ route('series.show', $series->slug) }}" class="inline-flex items-center gap-1 text-purple-700 font-semibold group-hover:translate-x-0.5 transition-transform">
+                        <span>Buka Bab</span>
+                        <span>&rarr;</span>
+                    </a>
+                </div>
             </div>
         </div>
         @empty
-        <div class="col-span-3 text-center py-12 bg-white rounded-xl border border-slate-200">
-            <p class="text-slate-400">Belum ada Master Series yang tersedia.</p>
+        <div class="col-span-full text-center py-16 bg-white rounded-3xl border border-dashed border-slate-200 space-y-3">
+            <div class="w-12 h-12 mx-auto rounded-full bg-slate-100 text-slate-400 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+            </div>
+            <p class="text-slate-500 font-medium text-sm">Belum ada Master Series yang tersedia saat ini.</p>
         </div>
         @endforelse
     </div>
 
+    {{-- Pagination --}}
     <div class="mt-8">
         {{ $seriesList->links() }}
     </div>
 </div>
-@endsection
+@endsection

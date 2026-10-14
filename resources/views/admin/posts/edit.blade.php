@@ -5,7 +5,7 @@
 
 @section('content')
 <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6 max-w-4xl">
-    <form action="{{ route('admin.posts.update', $post->id) }}" method="POST">
+    <form action="{{ route('admin.posts.update', $post->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         
@@ -44,6 +44,26 @@
             @error('volume_number') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 
+        {{-- Upload Gambar Sampul (Featured Image) --}}
+        <div class="mb-4">
+            <label class="block text-slate-700 text-sm font-bold mb-2">Gambar Sampul / Featured Image (Opsional)</label>
+            @if($post->featured_image)
+                <div class="mb-3">
+                    <p class="text-xs text-slate-500 mb-1">Gambar saat ini:</p>
+                    <img src="{{ asset('storage/' . $post->featured_image) }}" alt="Sampul saat ini" class="w-48 h-32 object-cover rounded-lg border border-slate-200 shadow-xs">
+                </div>
+            @endif
+            <input type="file" name="featured_image" id="featured_image_input" accept="image/*" class="w-full border border-slate-300 p-2 rounded focus:outline-none focus:border-blue-500 bg-white text-sm file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
+            <p class="text-xs text-slate-500 mt-1">Format: JPG, JPEG, PNG, WEBP. Maksimal 5MB. Kosongkan jika tidak ingin mengubah gambar.</p>
+            @error('featured_image') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+
+            {{-- Preview Gambar Baru --}}
+            <div id="image_preview_wrapper" class="hidden mt-3">
+                <p class="text-xs font-semibold text-slate-600 mb-1">Pratinjau Gambar Baru:</p>
+                <img id="image_preview" src="" alt="Pratinjau" class="w-48 h-32 object-cover rounded-lg border border-slate-200 shadow-xs">
+            </div>
+        </div>
+
         {{-- FITUR DEVELOPER OVERRIDE: Slug Manual --}}
         @if(auth()->user()->isDeveloper())
         <div class="mb-4 bg-purple-50 p-4 rounded-lg border border-purple-200">
@@ -75,6 +95,23 @@
             @error('status') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 
+        {{-- Pengaturan SEO & Meta Tags --}}
+        <div class="mb-6 bg-slate-50 p-5 rounded-xl border border-slate-200">
+            <h3 class="text-sm font-bold text-slate-800 mb-3 uppercase tracking-wider">Pengaturan SEO (Opsional)</h3>
+            
+            <div class="mb-4">
+                <label class="block text-slate-700 text-xs font-bold mb-1">Meta Title (Judul untuk Google/Sosmed)</label>
+                <input type="text" name="meta_title" value="{{ old('meta_title', $post->meta_title ?? '') }}" class="w-full border border-slate-300 p-2 rounded text-sm bg-white focus:outline-none focus:border-blue-500" placeholder="Kosongkan jika ingin sama dengan judul utama">
+                @error('meta_title') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            </div>
+
+            <div>
+                <label class="block text-slate-700 text-xs font-bold mb-1">Meta Description (Ringkasan SEO - Maks 160 karakter)</label>
+                <textarea name="meta_description" rows="2" class="w-full border border-slate-300 p-2 rounded text-sm bg-white focus:outline-none focus:border-blue-500" placeholder="Tulis deskripsi singkat yang menarik perhatian pembaca di hasil pencarian...">{{ old('meta_description', $post->meta_description ?? '') }}</textarea>
+                @error('meta_description') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            </div>
+        </div>
+
         <div class="flex items-center justify-between">
             <a href="{{ route('admin.posts.index') }}" class="text-slate-600 hover:underline">Batal</a>
             <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition">
@@ -84,20 +121,27 @@
     </form>
 </div>
 
-{{-- Pengaturan SEO & Meta Tags --}}
-<div class="mb-6 bg-slate-50 p-5 rounded-xl border border-slate-200">
-    <h3 class="text-sm font-bold text-slate-800 mb-3 uppercase tracking-wider">Pengaturan SEO (Opsional)</h3>
-    
-    <div class="mb-4">
-        <label class="block text-slate-700 text-xs font-bold mb-1">Meta Title (Judul untuk Google/Sosmed)</label>
-        <input type="text" name="meta_title" value="{{ old('meta_title', $post->meta_title ?? '') }}" class="w-full border border-slate-300 p-2 rounded text-sm bg-white focus:outline-none focus:border-blue-500" placeholder="Kosongkan jika ingin sama dengan judul utama">
-        @error('meta_title') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-    </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const imageInput = document.getElementById('featured_image_input');
+        const previewWrapper = document.getElementById('image_preview_wrapper');
+        const previewImg = document.getElementById('image_preview');
 
-    <div>
-        <label class="block text-slate-700 text-xs font-bold mb-1">Meta Description (Ringkasan SEO - Maks 160 karakter)</label>
-        <textarea name="meta_description" rows="2" class="w-full border border-slate-300 p-2 rounded text-sm bg-white focus:outline-none focus:border-blue-500" placeholder="Tulis deskripsi singkat yang menarik perhatian pembaca di hasil pencarian...">{{ old('meta_description', $post->meta_description ?? '') }}</textarea>
-        @error('meta_description') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-    </div>
-</div>
+        if (imageInput) {
+            imageInput.addEventListener('change', function() {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImg.src = e.target.result;
+                        previewWrapper.classList.remove('hidden');
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    previewWrapper.classList.add('hidden');
+                }
+            });
+        }
+    });
+</script>
 @endsection

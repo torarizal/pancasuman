@@ -5,7 +5,7 @@
 
 @section('content')
 <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6 max-w-2xl">
-    <form action="{{ route('admin.series.store') }}" method="POST">
+    <form action="{{ route('admin.series.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         
         <div class="mb-4">
@@ -23,6 +23,20 @@
                 @endforeach
             </select>
             @error('category_id') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+        </div>
+
+        {{-- Upload Cover Image Series --}}
+        <div class="mb-4">
+            <label class="block text-slate-700 text-sm font-bold mb-2">Gambar Sampul Series / Cover Image (Opsional)</label>
+            <input type="file" name="cover_image" id="cover_image_input" accept="image/*" class="w-full border border-slate-300 p-2 rounded focus:outline-none focus:border-blue-500 bg-white text-sm file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
+            <p class="text-xs text-slate-500 mt-1">Format: JPG, JPEG, PNG, WEBP. Maksimal 5MB.</p>
+            @error('cover_image') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            
+            {{-- Preview Gambar --}}
+            <div id="image_preview_wrapper" class="hidden mt-3">
+                <p class="text-xs font-semibold text-slate-600 mb-1">Pratinjau Sampul Series:</p>
+                <img id="image_preview" src="" alt="Pratinjau" class="w-48 h-32 object-cover rounded-lg border border-slate-200 shadow-xs">
+            </div>
         </div>
 
         {{-- FITUR DEVELOPER OVERRIDE: Slug Manual --}}
@@ -58,4 +72,28 @@
         </div>
     </form>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const imageInput = document.getElementById('cover_image_input');
+        const previewWrapper = document.getElementById('image_preview_wrapper');
+        const previewImg = document.getElementById('image_preview');
+
+        if (imageInput) {
+            imageInput.addEventListener('change', function() {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImg.src = e.target.result;
+                        previewWrapper.classList.remove('hidden');
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    previewWrapper.classList.add('hidden');
+                }
+            });
+        }
+    });
+</script>
 @endsection

@@ -4,6 +4,131 @@
 @source '../../storage/framework/views/*.php';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Plus Jakarta Sans', 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-serif: 'Lora', Georgia, Cambria, 'Times New Roman', serif;
 }
+
+/* Custom Design System Enhancements */
+@layer utilities {
+    .glass-nav {
+        background-color: rgba(255, 255, 255, 0.88);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+    }
+
+    .card-lift {
+        transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.28s ease;
+    }
+    .card-lift:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 30px -8px rgba(15, 23, 42, 0.08), 0 6px 12px -4px rgba(15, 23, 42, 0.03);
+    }
+
+    .badge-primary {
+        background: linear-gradient(135deg, #eff6ff 0%, #e0e7ff 100%);
+        color: #1d4ed8;
+        border: 1px solid rgba(191, 219, 254, 0.7);
+    }
+
+    .badge-series {
+        background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+        color: #7e22ce;
+        border: 1px solid rgba(233, 213, 255, 0.7);
+    }
+
+    .badge-amber {
+        background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+        color: #b45309;
+        border: 1px solid rgba(253, 230, 138, 0.7);
+    }
+}
+
+/* Rich Editorial Content Styling */
+.prose-editorial {
+    color: #334155;
+    line-height: 1.9;
+    font-size: 1.075rem;
+}
+
+.prose-editorial p {
+    margin-bottom: 1.5rem;
+}
+
+.prose-editorial h1,
+.prose-editorial h2,
+.prose-editorial h3,
+.prose-editorial h4 {
+    color: #0f172a;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-top: 2.25rem;
+    margin-bottom: 1rem;
+    line-height: 1.35;
+}
+
+.prose-editorial h2 {
+    font-size: 1.625rem;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 0.5rem;
+}
+
+.prose-editorial h3 {
+    font-size: 1.3rem;
+}
+
+.prose-editorial blockquote {
+    position: relative;
+    border-left: 4px solid #3b82f6;
+    background: linear-gradient(to right, #f8fafc, #f1f5f9);
+    padding: 1.25rem 1.5rem;
+    border-radius: 0 1rem 1rem 0;
+    font-style: italic;
+    color: #334155;
+    margin: 2rem 0;
+    font-size: 1.1rem;
+}
+
+.prose-editorial blockquote::before {
+    content: "“";
+    position: absolute;
+    top: -0.5rem;
+    left: 0.5rem;
+    font-size: 3rem;
+    color: rgba(59, 130, 246, 0.15);
+    font-family: serif;
+    line-height: 1;
+}
+
+.prose-editorial ul,
+.prose-editorial ol {
+    padding-left: 1.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.prose-editorial ul {
+    list-style-type: disc;
+}
+
+.prose-editorial ol {
+    list-style-type: decimal;
+}
+
+.prose-editorial li {
+    margin-bottom: 0.5rem;
+}
+
+.prose-editorial img {
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.1);
+    margin: 2rem auto;
+    max-width: 100%;
+    height: auto;
+}
+
+.prose-editorial hr {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #cbd5e1, transparent);
+    margin: 2.5rem 0;
+}
+
