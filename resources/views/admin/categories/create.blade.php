@@ -32,6 +32,23 @@
         <!-- Note: Admin tidak perlu input slug sesuai aturan SRS -->
         <p class="text-xs text-gray-500 mb-6 italic">* Slug akan dibuat secara otomatis oleh sistem.</p>
 
+        {{-- Pengaturan SEO & Meta Tags --}}
+<div class="my-6 bg-slate-50 p-5 rounded-xl border border-slate-200">
+    <h3 class="text-sm font-bold text-slate-800 mb-3 uppercase tracking-wider">Pengaturan SEO (Opsional)</h3>
+    
+    <div class="mb-4">
+        <label class="block text-slate-700 text-xs font-bold mb-1">Meta Title (Judul untuk Google/Sosmed)</label>
+        <input type="text" name="meta_title" value="{{ old('meta_title', $post->meta_title ?? '') }}" class="w-full border border-slate-300 p-2.5 rounded-lg text-sm bg-white focus:outline-none focus:border-blue-500" placeholder="Kosongkan jika ingin sama dengan judul utama">
+        @error('meta_title') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+    </div>
+
+    <div>
+        <label class="block text-slate-700 text-xs font-bold mb-1">Meta Description (Ringkasan SEO - Maks 160 karakter)</label>
+        <textarea name="meta_description" rows="2" class="w-full border border-slate-300 p-2.5 rounded-lg text-sm bg-white focus:outline-none focus:border-blue-500" placeholder="Tulis deskripsi singkat yang menarik perhatian pembaca di hasil pencarian...">{{ old('meta_description', $post->meta_description ?? '') }}</textarea>
+        @error('meta_description') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+    </div>
+</div>
+
         <div class="flex items-center justify-between">
             <a href="{{ route('admin.categories.index') }}" class="text-gray-600 hover:underline">Batal</a>
             <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">

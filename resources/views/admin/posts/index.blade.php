@@ -36,8 +36,15 @@
                 <tr>
                     <td class="p-3 text-slate-500">{{ $posts->firstItem() + $index }}</td>
                     <td class="p-3">
-                        <div class="font-semibold text-slate-800">{{ $post->title }}</div>
-                        <div class="text-xs text-slate-400 font-mono">{{ $post->slug }}</div>
+                        <div class="flex items-center gap-3">
+                            @if($post->featured_image)
+                                <img src="{{ asset('storage/' . $post->featured_image) }}" alt="" loading="lazy" decoding="async" class="w-10 h-10 rounded-lg object-cover border border-slate-200 shrink-0">
+                            @endif
+                            <div>
+                                <div class="font-semibold text-slate-800">{{ $post->title }}</div>
+                                <div class="text-xs text-slate-400 font-mono">{{ $post->slug }}</div>
+                            </div>
+                        </div>
                     </td>
                     <td class="p-3">
                         <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs font-medium">

@@ -18,6 +18,7 @@ class UpdateSeriesRequest extends FormRequest
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:series,slug,' . $this->route('series')->id,
             'description' => 'nullable|string',
+            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:5120',
             'status' => 'required|in:active,inactive',
         ];
     }

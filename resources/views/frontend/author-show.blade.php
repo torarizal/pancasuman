@@ -3,41 +3,69 @@
 @section('title', $author->name . ' - Penulis Pancasuman')
 
 @section('content')
-<div class="space-y-8">
+<div class="max-w-5xl mx-auto space-y-10">
+    
+    {{-- Breadcrumbs --}}
+    <nav class="flex items-center space-x-2 text-xs sm:text-sm text-slate-500">
+        <a href="{{ route('home') }}" class="hover:text-blue-600 transition-colors">Beranda</a>
+        <span>/</span>
+        <a href="{{ route('authors.index') }}" class="hover:text-blue-600 transition-colors">Penulis</a>
+        <span>/</span>
+        <span class="text-slate-800 font-medium">{{ $author->name }}</span>
+    </nav>
+
     {{-- Header Profil Penulis --}}
-    <div class="bg-white border border-slate-200 rounded-3xl p-8 sm:p-12 shadow-sm text-center">
-        <div class="w-32 h-32 mx-auto bg-gradient-to-tr from-blue-500 to-purple-500 text-white rounded-full flex items-center justify-center text-5xl font-black mb-6 shadow-lg">
+    <div class="bg-white border border-slate-200/80 rounded-3xl p-8 sm:p-12 shadow-xs text-center relative overflow-hidden">
+        <div class="w-28 h-28 mx-auto bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 text-white rounded-3xl flex items-center justify-center text-4xl font-black mb-5 shadow-lg shadow-blue-500/20 ring-4 ring-white border border-slate-100">
             {{ substr($author->name, 0, 1) }}
         </div>
-        <h1 class="text-3xl sm:text-4xl font-black text-slate-900 mb-2">{{ $author->name }}</h1>
-        <p class="text-slate-500">Anggota sejak {{ $author->created_at->format('M Y') }}</p>
+        <h1 class="text-3xl sm:text-4xl font-black text-slate-900 font-serif tracking-tight mb-2">{{ $author->name }}</h1>
+        <p class="text-slate-500 text-sm">Bergabung sejak {{ $author->created_at->format('M Y') }} &bull; Kontributor Literasi Pancasuman</p>
     </div>
 
     {{-- Daftar Karya Penulis --}}
-    <div>
-        <h2 class="text-xl font-bold text-slate-800 mb-6 border-b border-slate-200 pb-2">Karya oleh {{ $author->name }}</h2>
+    <div class="space-y-6">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-200/80">
+            <h2 class="text-xl font-bold text-slate-900 tracking-tight">Karya oleh {{ $author->name }}</h2>
+        </div>
         
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @forelse($posts as $post)
-            <article class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition p-5">
-                <a href="{{ route('category.show', $post->category->slug ?? '#') }}" class="text-xs font-bold text-blue-600 uppercase tracking-wider hover:underline mb-2 block">
-                    {{ $post->category->name ?? 'Umum' }}
-                </a>
-                <h3 class="text-lg font-bold text-slate-900 mb-2 leading-snug">
-                    <a href="{{ route('posts.show', $post->slug) }}" class="hover:text-blue-600 transition">
-                        {{ $post->title }}
-                    </a>
-                </h3>
-                <p class="text-slate-500 text-sm line-clamp-2 mb-4">
-                    {{ $post->excerpt ?? Str::limit(strip_tags($post->body), 80) }}
-                </p>
-                <div class="text-xs text-slate-400">
-                    Dipublikasikan pada {{ $post->published_at ? $post->published_at->format('d M Y') : $post->created_at->format('d M Y') }}
+            <article class="card-lift bg-white border border-slate-200/80 hover:border-blue-300 rounded-2xl overflow-hidden shadow-xs flex flex-col justify-between group transition-all duration-300">
+                @if($post->featured_image)
+                <div class="h-44 w-full overflow-hidden bg-slate-100">
+                    <img src="{{ asset('storage/' . $post->featured_image) }}" alt="{{ $post->title }}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                </div>
+                @endif
+                <div class="p-6">
+                    <div class="mb-3">
+                        <a href="{{ route('category.show', $post->category->slug ?? '#') }}" class="badge-primary text-[11px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider inline-block">
+                            {{ $post->category->name ?? 'Umum' }}
+                        </a>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors mb-2.5 leading-snug">
+                        <a href="{{ route('posts.show', $post->slug) }}">
+                            {{ $post->title }}
+                        </a>
+                    </h3>
+                    <p class="text-slate-600 text-sm line-clamp-3 leading-relaxed mb-4">
+                        {{ $post->excerpt ?? Str::limit(strip_tags($post->body), 100) }}
+                    </p>
+                </div>
+                
+                <div class="px-6 py-4 bg-slate-50/70 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                    <span>Dipublikasikan</span>
+                    <span class="font-medium text-slate-600">{{ $post->published_at ? $post->published_at->format('d M Y') : $post->created_at->format('d M Y') }}</span>
                 </div>
             </article>
             @empty
-            <div class="col-span-full text-center py-8 text-slate-400 bg-white rounded-xl border border-slate-200">
-                Penulis ini belum memiliki karya yang dipublikasikan.
+            <div class="col-span-full text-center py-16 bg-white rounded-3xl border border-dashed border-slate-200 space-y-3">
+                <div class="w-12 h-12 mx-auto rounded-full bg-slate-100 text-slate-400 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                    </svg>
+                </div>
+                <p class="text-slate-500 font-medium text-sm">Penulis ini belum memiliki karya yang dipublikasikan.</p>
             </div>
             @endforelse
         </div>
@@ -47,4 +75,4 @@
         </div>
     </div>
 </div>
-@endsection
+@endsection
