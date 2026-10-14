@@ -31,7 +31,7 @@
                         @endif
                         <div class="flex flex-col">
                             <span class="font-extrabold text-sm text-slate-800 leading-tight">PANCASUMAN</span>
-                            <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Portal Literasi</span>
+                            <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Portal Berita & Informasi</span>
                         </div>
                     </div>
 
@@ -92,7 +92,7 @@
                         </div>
                         <div class="flex flex-col">
                             <span class="font-extrabold text-sm text-white leading-tight">PANCASUMAN</span>
-                            <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Portal Literasi</span>
+                            <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Portal Berita & Informasi</span>
                         </div>
                     </div>
                 </div>
