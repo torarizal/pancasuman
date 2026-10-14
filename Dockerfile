@@ -1,6 +1,6 @@
 FROM php:8.4-fpm
 
-# Install dependencies sistem & ekstensi PHP yang dibutuhkan Laravel
+# Install dependencies & ekstensi PHP
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -10,30 +10,27 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     nginx \
-    libzip-dev
+    libzip-dev \
+    gettext-base
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install ekstensi PHP
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
 
-# Get Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 COPY . .
 
-# Jalankan composer install dengan environment variabel superuser
 ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# Izin folder storage
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Konfigurasi Nginx port 80/port Railway
+# Template Nginx menggunakan variabel $PORT dari Railway
 RUN echo 'server {\n\
-    listen 80;\n\
+    listen ${PORT};\n\
     index index.php index.html;\n\
     root /var/www/html/public;\n\
     location / {\n\
@@ -47,9 +44,7 @@ RUN echo 'server {\n\
     }\n\
 }' > /etc/nginx/sites-available/default
 
-EXPOSE 80
-
-# Script start
+# Salin script entrypoint
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 ENTRYPOINT ["docker-entrypoint.sh"]
