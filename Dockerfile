@@ -19,7 +19,6 @@ RUN chown -R www-data:www-data storage bootstrap/cache \
 EXPOSE 8080
 ENV PORT=8080
 
-# Nginx config pakai port hardcode 8080
 RUN echo 'server { \n\
     listen 8080; \n\
     root /var/www/html/public; \n\
@@ -35,4 +34,10 @@ RUN echo 'server { \n\
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
 
-CMD ["sh", "-c", "php artisan storage:link && php artisan migrate --force && php-fpm -D && nginx -g 'daemon off;'"]
+CMD php artisan storage:link && \
+    php artisan config:clear && \
+    php artisan cache:clear && \
+    php artisan view:clear && \
+    php artisan migrate --force && \
+    php-fpm -D && \
+    nginx -g "daemon off;"
