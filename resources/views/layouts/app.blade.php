@@ -3,7 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    {{-- 1. Meta Title & Description dari Database / View --}}
     <title>@yield('title', 'Pancasuman - Portal Komunitas & Literasi')</title>
+    <meta name="description" content="{{ $metaDescription ?? 'Portal resmi komunitas Pancasuman. Menghimpun karya literasi, kegiatan, dan informasi terkini dari jamaah Maiyah.' }}">
+    <meta name="keywords" content="{{ $metaKeywords ?? 'Pancasuman, Maiyah, Cak Nun, Emha Ainun Nadjib, Jamaah Maiyah, Komunitas Literasi' }}">
+    
+    {{-- 2. Open Graph / Social Media (ambil dari database jika ada) --}}
+    <meta property="og:title" content="{{ $metaTitle ?? yield('title', 'Pancasuman') }}">
+    <meta property="og:description" content="{{ $metaDescription ?? 'Portal resmi komunitas Pancasuman.' }}">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="id_ID">
+    
+    {{-- Twitter Card --}}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $metaTitle ?? yield('title', 'Pancasuman') }}">
+    <meta name="twitter:description" content="{{ $metaDescription ?? 'Portal resmi komunitas Pancasuman.' }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased flex flex-col min-h-screen">
@@ -19,6 +34,7 @@
                 <a href="{{ route('archive') }}" class="text-slate-600 hover:text-blue-600">Eksplor</a>
                 <a href="{{ route('authors.index') }}" class="text-slate-600 hover:text-blue-600">Penulis</a>
                 <a href="{{ route('series.index') }}" class="text-slate-600 hover:text-blue-600">Series</a>
+                <a href="{{ route('articles') }}" class="text-slate-600 hover:text-blue-600 font-medium transition">Artikel</a>
                 <a href="{{ route('biografi.caknun') }}" class="text-slate-500 hover:text-blue-600">Biografi Cak Nun</a>
                 <a href="{{ route('about') }}" class="text-slate-500 hover:text-blue-600">Tentang Kami</a>
                 <a href="{{ route('contact') }}" class="text-slate-500 hover:text-blue-600">Kontak</a>

@@ -22,7 +22,7 @@
             <a href="{{ route('admin.series.index') }}" class="block px-4 py-2 hover:bg-gray-100 rounded">Master Series</a>
             <a href="#" class="block px-4 py-2 text-gray-600 hover:bg-gray-100 hover:text-gray-800 rounded">Manajemen Series</a>
             <a href="#" class="block px-4 py-2 text-gray-600 hover:bg-gray-100 hover:text-gray-800 rounded">Artikel</a>
-            <a href="{{ route('admin.posts.index') }}" class="block px-4 py-2 hover:bg-gray-100 rounded">Manajemen Artikel</a>
+            <a href="{{ route('admin.posts.index') }}" class="block px-4 py-2 hover:bg-gray-100 rounded">Manajemen konten</a>
         </nav>
     </aside>
 

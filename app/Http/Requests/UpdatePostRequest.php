@@ -22,6 +22,8 @@ class UpdatePostRequest extends FormRequest
             'excerpt' => 'nullable|string',
             'body' => 'required|string',
             'status' => 'required|in:draft,published',
-        ];
+            'meta_title' => 'nullable|string|max:60',
+            'meta_description' => 'nullable|string|max:160',
+            ];
     }
 }

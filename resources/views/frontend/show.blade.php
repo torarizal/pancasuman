@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
-@section('title', $post->title . ' - Pancasuman')
+@section('title', $post->meta_title ?? $post->title . ' - Pancasuman')
+
+@section('meta_description', $post->meta_description ?? $post->excerpt ?? Str::limit(strip_tags($post->body), 150))
 
 @section('content')
 <div class="max-w-3xl mx-auto bg-white border border-slate-200 rounded-2xl p-8 sm:p-12 shadow-sm">
@@ -50,7 +52,7 @@
 
     {{-- Isi Konten Artikel / Cerpen --}}
     <div class="prose prose-slate max-w-none text-slate-800 leading-relaxed space-y-6 text-base sm:text-lg">
-        {!! nl2br(e($post->body)) !!}
+        {!! $post->body !!}
     </div>
 
     {{-- Tombol Kembali --}}

@@ -60,7 +60,7 @@
         
         {{-- Widget Rubrik / Kategori --}}
         <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
-            <h3 class="text-base font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100">Rubrik / Kategori</h3>
+            <h3 class="text-base font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100">Kategori</h3>
             <div class="flex flex-wrap gap-2">
                 @foreach($categories as $cat)
                     <a href="{{ route('category.show', $cat->slug) }}" class="bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-700 text-xs font-medium px-3 py-1.5 rounded-lg transition">

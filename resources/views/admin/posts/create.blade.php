@@ -4,6 +4,9 @@
 @section('header', 'Buat Tulisan Baru')
 
 @section('content')
+{{-- Summernote CSS Lite --}}
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
+
 <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6 max-w-4xl">
     <form action="{{ route('admin.posts.store') }}" method="POST">
         @csrf
@@ -62,7 +65,8 @@
 
         <div class="mb-4">
             <label class="block text-slate-700 text-sm font-bold mb-2">Isi Tulisan / Cerpen <span class="text-red-500">*</span></label>
-            <textarea name="body" rows="10" class="w-full border border-slate-300 p-2 rounded focus:outline-none focus:border-blue-500 font-mono text-sm" required placeholder="Tulis esai, pemikiran, atau cerpen di sini...">{{ old('body') }}</textarea>
+            {{-- Tambahkan id="summernote" di sini --}}
+            <textarea id="summernote" name="body" rows="10" class="w-full border border-slate-300 p-2 rounded focus:outline-none focus:border-blue-500" required placeholder="Tulis esai, pemikiran, atau cerpen di sini...">{{ old('body') }}</textarea>
             @error('body') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 
@@ -82,5 +86,44 @@
             </button>
         </div>
     </form>
+</div>
+
+{{-- jQuery & Summernote JS Lite --}}
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#summernote').summernote({
+            placeholder: 'Tulis esai, pemikiran, atau cerpen di sini...',
+            tabsize: 2,
+            height: 400,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'italic', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link']],
+                ['view', ['codeview', 'help']]
+            ]
+        });
+    });
+</script>
+
+{{-- Pengaturan SEO & Meta Tags --}}
+<div class="mb-6 bg-slate-50 p-5 rounded-xl border border-slate-200">
+    <h3 class="text-sm font-bold text-slate-800 mb-3 uppercase tracking-wider">Pengaturan SEO (Opsional)</h3>
+    
+    <div class="mb-4">
+        <label class="block text-slate-700 text-xs font-bold mb-1">Meta Title (Judul untuk Google/Sosmed)</label>
+        <input type="text" name="meta_title" value="{{ old('meta_title', $post->meta_title ?? '') }}" class="w-full border border-slate-300 p-2 rounded text-sm bg-white focus:outline-none focus:border-blue-500" placeholder="Kosongkan jika ingin sama dengan judul utama">
+        @error('meta_title') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+    </div>
+
+    <div>
+        <label class="block text-slate-700 text-xs font-bold mb-1">Meta Description (Ringkasan SEO - Maks 160 karakter)</label>
+        <textarea name="meta_description" rows="2" class="w-full border border-slate-300 p-2 rounded text-sm bg-white focus:outline-none focus:border-blue-500" placeholder="Tulis deskripsi singkat yang menarik perhatian pembaca di hasil pencarian...">{{ old('meta_description', $post->meta_description ?? '') }}</textarea>
+        @error('meta_description') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+    </div>
 </div>
 @endsection

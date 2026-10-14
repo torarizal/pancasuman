@@ -94,11 +94,12 @@ class FrontendController extends Controller
     }
 
     // Halaman Arsip & Pencarian
+    // Halaman Arsip, Pencarian & Filter Rubrik
     public function archive(Request $request)
     {
         $query = Post::with(['category', 'series', 'author'])->where('status', 'published');
 
-        // Jika ada input pencarian
+        // 1. Filter Pencarian Kata Kunci
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function($q) use ($search) {
@@ -107,10 +108,18 @@ class FrontendController extends Controller
             });
         }
 
-        // Pagination 12 item per halaman dan bawa query string pencarian
-        $posts = $query->latest('published_at')->paginate(12)->withQueryString();
+        // 2. Filter Berdasarkan Rubrik / Kategori
+        if ($request->filled('category')) {
+            $query->where('category_id', $request->category);
+        }
 
-        return view('frontend.archive', compact('posts'));
+        // Pagination 12 item per halaman dan bawa query string-nya
+        $posts = $query->latest('published_at')->paginate(12)->withQueryString();
+        
+        // Ambil daftar kategori aktif untuk pilihan filter di view
+        $categories = Category::where('status', 'active')->get();
+
+        return view('frontend.archive', compact('posts', 'categories'));
     }
 
     // Halaman Daftar Penulis (Direktori)
@@ -157,5 +166,29 @@ class FrontendController extends Controller
     {
         $page = Page::where('slug', 'biografi-cak-nun')->first();
         return view('frontend.caknun', compact('page'));
+    }
+
+    // Halaman Khusus Rubrik Artikel
+    public function articles(Request $request)
+    {
+        // Sesuaikan nama rubriknya, misal slug kategori artikel adalah 'artikel'
+        $query = Post::with(['category', 'series', 'author'])
+                    ->where('status', 'published')
+                    ->whereHas('category', function($q) {
+                        $q->where('slug', 'artikel'); // Ganti 'artikel' sesuai slug rubrik artikel di database kamu
+                    });
+
+        // Tetap dukung fitur pencarian di dalam halaman artikel
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', '%' . $search . '%')
+                  ->orWhere('body', 'like', '%' . $search . '%');
+            });
+        }
+
+        $posts = $query->latest('published_at')->paginate(12)->withQueryString();
+
+        return view('frontend.articles', compact('posts'));
     }
 }

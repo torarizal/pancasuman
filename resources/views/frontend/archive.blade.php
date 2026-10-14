@@ -4,32 +4,63 @@
 
 @section('content')
 <div class="space-y-8">
-    {{-- Header & Form Pencarian --}}
+    {{-- Header & Form Pencarian & Filter Rubrik --}}
     <div class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">
         <div>
             <h1 class="text-3xl font-black text-slate-900">Arsip Tulisan</h1>
             <p class="text-slate-500 mt-2">Jelajahi seluruh artikel, esai, dan cerpen di Pancasuman.</p>
         </div>
         
-        <div class="w-full md:w-1/3">
-            <form action="{{ route('archive') }}" method="GET" class="relative">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari judul atau isi tulisan..." class="w-full pl-4 pr-12 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+        {{-- Form Pencarian & Filter --}}
+        <form action="{{ route('archive') }}" method="GET" class="w-full md:w-2/3 flex flex-col sm:flex-row gap-3">
+            {{-- Input Kata Kunci --}}
+            <div class="relative flex-1">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari judul atau isi tulisan..." class="w-full pl-4 pr-12 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition text-sm">
                 <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </button>
-            </form>
-        </div>
+            </div>
+
+            {{-- Dropdown Filter Rubrik --}}
+            <div class="w-full sm:w-48">
+                <select name="category" onchange="this.form.submit()" class="w-full py-3 px-3 rounded-xl border border-slate-300 bg-white text-slate-700 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition cursor-pointer">
+                    <option value="">-- Semua kategori --</option>
+                    @foreach($categories as $cat)
+                        <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>
+                            {{ $cat->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            {{-- Tombol Reset jika ada filter aktif --}}
+            @if(request()->filled('search') || request()->filled('category'))
+                <a href="{{ route('archive') }}" class="px-4 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-sm font-medium transition flex items-center justify-center">
+                    Reset
+                </a>
+            @endif
+        </form>
     </div>
 
-    {{-- Hasil Pencarian / Daftar Tulisan --}}
-    @if(request()->filled('search'))
-        <div class="text-sm text-slate-600">
-            Menampilkan hasil pencarian untuk: <strong class="text-slate-900">"{{ request('search') }}"</strong>
+    {{-- Informasi Filter Aktif --}}
+    @if(request()->filled('search') || request()->filled('category'))
+        <div class="text-sm text-slate-600 flex items-center gap-2">
+            <span>Filter aktif:</span>
+            @if(request()->filled('search'))
+                <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">Kata Kunci: "{{ request('search') }}"</span>
+            @endif
+            @if(request()->filled('category'))
+                @php $currentCat = $categories->firstWhere('id', request('category')); @endphp
+                @if($currentCat)
+                    <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">Kategori: {{ $currentCat->name }}</span>
+                @endif
+            @endif
         </div>
     @endif
 
+    {{-- Hasil Pencarian / Daftar Tulisan --}}
     <div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-6">
         @forelse($posts as $post)
         <article class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between">
@@ -55,10 +86,8 @@
         </article>
         @empty
         <div class="col-span-full text-center py-12 bg-white rounded-xl border border-slate-200">
-            <p class="text-slate-500 text-lg">Oops! Tidak ada tulisan yang ditemukan.</p>
-            @if(request()->filled('search'))
-                <a href="{{ route('archive') }}" class="text-blue-600 hover:underline mt-2 inline-block">Reset Pencarian</a>
-            @endif
+            <p class="text-slate-500 text-lg">Oops! Tidak ada tulisan yang ditemukan dengan filter tersebut.</p>
+            <a href="{{ route('archive') }}" class="text-blue-600 hover:underline mt-2 inline-block font-semibold">Reset Pencarian & Filter</a>
         </div>
         @endforelse
     </div>

@@ -19,6 +19,7 @@ Route::get('/penulis/{id}', [FrontendController::class, 'authorShow'])->name('au
 Route::get('/tentang', [FrontendController::class, 'about'])->name('about');
 Route::get('/kontak', [FrontendController::class, 'contact'])->name('contact');
 Route::get('/biografi-cak-nun', [FrontendController::class, 'cakNun'])->name('biografi.caknun');
+Route::get('/artikel', [FrontendController::class, 'articles'])->name('articles');
 
 // Guest Routes (Hanya untuk yang belum login)
 Route::middleware('guest')->group(function () {

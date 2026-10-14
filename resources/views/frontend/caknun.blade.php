@@ -26,7 +26,7 @@
     {{-- Konten Teks Utama (Dinamis dari Database) --}}
     <div class="bg-white border border-slate-200 rounded-2xl p-8 sm:p-12 shadow-sm prose prose-slate max-w-none text-slate-800 leading-relaxed text-base sm:text-lg">
         @if($page && $page->content)
-            {!! nl2br(e($page->content)) !!}
+    {!! $page->content !!}
         @else
             <p class="text-slate-400 italic">Konten biografi belum diatur melalui Master Pages di panel developer.</p>
         @endif

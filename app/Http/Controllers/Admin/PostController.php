@@ -66,21 +66,47 @@ class PostController extends Controller
     return view('admin.posts.create', compact('categories', 'seriesList'));
 }
 
-    public function store(StorePostRequest $request)
-    {
-        $data = $request->validated();
-        if (empty($data['slug'])) {
-            unset($data['slug']);
+   public function store(StorePostRequest $request)
+{
+    $data = $request->validated();
+
+    if (!empty($data['series_id']) && !empty($data['volume_number'])) {
+        // Cari tahu volume tertinggi yang saat ini sudah ada di series tersebut
+        $lastPostInSeries = Post::where('series_id', $data['series_id'])->orderBy('volume_number', 'desc')->first();
+        $lastVolume = $lastPostInSeries ? $lastPostInSeries->volume_number : 0;
+        
+        $expectedVolume = $lastVolume + 1;
+
+        // 1. Cek jika nomor volume kembar (sudah ada)
+        $exists = Post::where('series_id', $data['series_id'])
+                    ->where('volume_number', $data['volume_number'])
+                    ->exists();
+
+        if ($exists) {
+            return back()->withInput()->withErrors([
+                'volume_number' => "Nomor Volume {$data['volume_number']} sudah ada! Volume terakhir di series ini adalah Vol. {$lastVolume}."
+            ]);
         }
 
-        // Paksa user_id diisi oleh ID akun yang sedang login saat ini
-        $data['user_id'] = Auth::id();
-
-        Post::create($data);
-
-        return redirect()->route('admin.posts.index')
-            ->with('success', 'Artikel/Cerpen berhasil ditambahkan.');
+        // 2. Cek jika penulis LOMPAT VOLUME (Misal harusnya Vol. 11, tapi dia nulis Vol. 15)
+        if ($data['volume_number'] > $expectedVolume) {
+            return back()->withInput()->withErrors([
+                'volume_number' => "Nomor volume melompat! Volume terakhir adalah Vol. {$lastVolume}. Seharusnya urutan berikutnya adalah **Vol. {$expectedVolume}** (kamu mengisi Vol. {$data['volume_number']})."
+            ]);
+        }
     }
+
+    if (empty($data['slug'])) {
+        unset($data['slug']);
+    }
+
+    $data['user_id'] = Auth::id();
+
+    Post::create($data);
+
+    return redirect()->route('admin.posts.index')
+        ->with('success', 'Artikel/Cerpen berhasil ditambahkan.');
+}
 
     public function edit(Post $post)
 {
@@ -102,22 +128,39 @@ class PostController extends Controller
 }
 
     public function update(UpdatePostRequest $request, Post $post)
-    {
-        // KEAMANAN: Tolak akses (403) jika mencoba update artikel milik orang lain
-        if (!$this->userIsDeveloper() && $post->user_id !== Auth::id()) {
-            abort(403, 'Anda tidak memiliki hak akses untuk memperbarui tulisan ini.');
-        }
-
-        $data = $request->validated();
-        if (empty($data['slug'])) {
-            unset($data['slug']);
-        }
-
-        $post->update($data);
-
-        return redirect()->route('admin.posts.index')
-            ->with('success', 'Artikel/Cerpen berhasil diperbarui.');
+{
+    if (!$this->userIsDeveloper() && $post->user_id !== Auth::id()) {
+        abort(403, 'Anda tidak memiliki hak akses untuk memperbarui tulisan ini.');
     }
+
+    $data = $request->validated();
+
+    // CEK VOLUME GANDA SAAT EDIT (Kecuali untuk post itu sendiri)
+    if (!empty($data['series_id']) && !empty($data['volume_number'])) {
+        $exists = Post::where('series_id', $data['series_id'])
+                    ->where('volume_number', $data['volume_number'])
+                    ->where('id', '!=', $post->id) // Abaikan post yang sedang diedit ini
+                    ->exists();
+
+        if ($exists) {
+            $lastVolume = Post::where('series_id', $data['series_id'])->max('volume_number');
+            $suggested = $lastVolume ? $lastVolume + 1 : 1;
+
+            return back()->withInput()->withErrors([
+                'volume_number' => "Nomor Volume {$data['volume_number']} sudah dipakai artikel lain di series ini! Saran volume berikutnya: {$suggested}."
+            ]);
+        }
+    }
+
+    if (empty($data['slug'])) {
+        unset($data['slug']);
+    }
+
+    $post->update($data);
+
+    return redirect()->route('admin.posts.index')
+        ->with('success', 'Artikel/Cerpen berhasil diperbarui.');
+}
 
     public function destroy(Post $post)
     {
