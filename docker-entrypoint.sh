@@ -1,15 +1,19 @@
 #!/bin/bash
 set -e
 
-# Substitusi variabel $PORT ke dalam konfigurasi Nginx
-envsubst '$PORT' < /etc/nginx/sites-available/default > /etc/nginx/sites-enabled/default
+# Mengganti port default Nginx (80) dengan port dinamis dari Railway ($PORT)
+# Jika variabel PORT kosong, otomatis fallback ke port 8080
+PORT_TO_USE="${PORT:-8080}"
+sed -i "s/listen 80;/listen ${PORT_TO_USE};/g" /etc/nginx/sites-available/default
 
-# Jalankan optimasi & migrasi database
+echo "Nginx dikonfigurasi menggunakan port: $PORT_TO_USE"
+
+# Optimasi Laravel & Migrasi Database otomatis
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
 php artisan migrate --force
 
-# Jalankan PHP-FPM dan Nginx
+# Jalankan PHP-FPM di background dan Nginx di foreground
 php-fpm -D
 nginx -g "daemon off;"
