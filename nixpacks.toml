@@ -1,5 +1,5 @@
 [phases.setup]
-phpVersion = "8.4"
+nixPkgs = ["php84", "composer"]
 
 [phases.build]
 cmds = [
