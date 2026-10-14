@@ -17,7 +17,7 @@ class SettingController extends Controller
     {
         $siteLogo = Setting::get('site_logo');
         $siteName = Setting::get('site_name', 'Pancasuman');
-        $siteTagline = Setting::get('site_tagline', 'Portal Literasi');
+        $siteTagline = Setting::get('site_tagline', 'Portal Berita & Informasi Pancasuman');
 
         return view('developer.settings.index', compact('siteLogo', 'siteName', 'siteTagline'));
     }

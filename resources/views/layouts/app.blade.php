@@ -85,7 +85,7 @@
                             PANCASUMAN
                         </span>
                         <span class="text-[10px] uppercase font-bold tracking-widest text-slate-400 -mt-1">
-                            Portal Literasi
+                            Portal Berita & Informasi
                         </span>
                     </div>
                 </a>
@@ -356,4 +356,4 @@
         }
     </script>
 </body>
-</html>
+</html>
