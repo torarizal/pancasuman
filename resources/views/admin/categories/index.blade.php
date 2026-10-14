@@ -1,60 +1,103 @@
 @extends('layouts.admin')
 
-@section('title', 'Manajemen Kategori')
-@section('header', 'Manajemen Kategori')
+@section('title', 'Manajemen Kategori Rubrik')
+@section('header', 'Manajemen Kategori Rubrik')
 
 @section('content')
-<div class="bg-white rounded-lg shadow p-6">
-    <div class="flex justify-between items-center mb-4">
-        <h2 class="text-lg font-medium text-gray-800">Daftar Kategori</h2>
-        <a href="{{ route('admin.categories.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium text-sm transition">
-            + Tambah Kategori
-        </a>
+<div class="space-y-6">
+
+    {{-- Header & Hak Akses Notice --}}
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <h2 class="text-xl font-bold text-slate-900 tracking-tight">Daftar Rubrik & Kategori</h2>
+            <p class="text-xs text-slate-500 mt-1">Kategori utama untuk pengelompokan tulisan artikel, opini, dan karya sastra.</p>
+        </div>
+
+        @if(auth()->user()->isDeveloper())
+            <a href="{{ route('admin.categories.create') }}" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl font-bold text-xs shadow-xs transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+                <span>Tambah Kategori Baru</span>
+            </a>
+        @else
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs font-semibold">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+                <span>Mode Lihat Saja (Kelola Kategori Khusus Developer)</span>
+            </div>
+        @endif
     </div>
 
-    <div class="overflow-x-auto">
-        <table class="w-full text-left border-collapse">
-            <thead>
-                <tr class="bg-gray-50 text-gray-600 text-sm border-b">
-                    <th class="p-4 font-medium">Nama Kategori</th>
-                    <th class="p-4 font-medium">Slug</th>
-                    <th class="p-4 font-medium">Status</th>
-                    <th class="p-4 font-medium text-right">Aksi</th>
-                </tr>
-            </thead>
-            <tbody class="text-sm divide-y divide-gray-100">
-                @forelse($categories as $category)
-                <tr class="hover:bg-gray-50">
-                    <td class="p-4 font-medium text-gray-800">{{ $category->name }}</td>
-                    <td class="p-4 text-gray-500">{{ $category->slug }}</td>
-                    <td class="p-4">
-                        @if($category->status === 'active')
-                            <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs">Aktif</span>
-                        @else
-                            <span class="bg-red-100 text-red-700 px-2 py-1 rounded text-xs">Tidak Aktif</span>
-                        @endif
-                    </td>
-                    <td class="p-4 text-right space-x-2">
-                        <a href="{{ route('admin.categories.edit', $category->id) }}" class="text-blue-600 hover:underline">Edit</a>
-                        <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Yakin ingin menghapus kategori ini?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="text-red-600 hover:underline">Hapus</button>
-                        </form>
-                    </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="4" class="p-4 text-center text-gray-500">Belum ada kategori yang ditambahkan.</td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
+    {{-- Tabel Kategori --}}
+    <div class="bg-white rounded-2xl shadow-xs border border-slate-200/80 overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-sm">
+                <thead>
+                    <tr class="bg-slate-50/80 text-slate-500 text-xs font-bold uppercase tracking-wider border-b border-slate-200/80">
+                        <th class="p-4">Nama Rubrik</th>
+                        <th class="p-4">Slug URL</th>
+                        <th class="p-4">Status</th>
+                        <th class="p-4 text-right">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    @forelse($categories as $category)
+                    <tr class="hover:bg-slate-50/60 transition">
+                        <td class="p-4">
+                            <span class="font-bold text-slate-800">{{ $category->name }}</span>
+                        </td>
+                        <td class="p-4 font-mono text-xs text-blue-600">
+                            /rubrik/{{ $category->slug }}
+                        </td>
+                        <td class="p-4">
+                            @if($category->status === 'active')
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                    <span>Aktif</span>
+                                </span>
+                            @else
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-600 border border-slate-200">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+                                    <span>Tidak Aktif</span>
+                                </span>
+                            @endif
+                        </td>
+                        <td class="p-4 text-right">
+                            @if(auth()->user()->isDeveloper())
+                                <div class="inline-flex items-center gap-3">
+                                    <a href="{{ route('admin.categories.edit', $category->id) }}" class="text-xs font-bold text-blue-600 hover:text-blue-800 transition">
+                                        Edit
+                                    </a>
+                                    <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Yakin ingin menghapus kategori ini?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-xs font-bold text-rose-600 hover:text-rose-800 transition cursor-pointer">
+                                            Hapus
+                                        </button>
+                                    </form>
+                                </div>
+                            @else
+                                <span class="text-xs text-slate-400 italic">Hanya Lihat</span>
+                            @endif
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="4" class="p-8 text-center text-slate-400 text-xs">Belum ada kategori yang ditambahkan.</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+        @if($categories->hasPages())
+        <div class="p-4 border-t border-slate-100">
+            {{ $categories->links() }}
+        </div>
+        @endif
     </div>
 
-    <!-- Pagination -->
-    <div class="mt-4">
-        {{ $categories->links() }}
-    </div>
 </div>
 @endsection

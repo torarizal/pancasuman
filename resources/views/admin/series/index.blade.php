@@ -34,7 +34,14 @@
                 @forelse($series as $index => $item)
                 <tr>
                     <td class="p-3 text-slate-500">{{ $series->firstItem() + $index }}</td>
-                    <td class="p-3 font-semibold text-slate-800">{{ $item->title }}</td>
+                    <td class="p-3">
+                        <div class="flex items-center gap-3">
+                            @if($item->cover_image)
+                                <img src="{{ asset('storage/' . $item->cover_image) }}" alt="" loading="lazy" decoding="async" class="w-10 h-10 rounded-lg object-cover border border-slate-200 shrink-0">
+                            @endif
+                            <div class="font-semibold text-slate-800">{{ $item->title }}</div>
+                        </div>
+                    </td>
                     <td class="p-3">
                         <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs font-medium">
                             {{ $item->category->name ?? 'Tanpa Kategori' }}

@@ -14,6 +14,8 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'avatar',
+        'bio',
     ];
 
     protected $hidden = [
@@ -35,5 +37,15 @@ class User extends Authenticatable
     public function posts()
     {
         return $this->hasMany(Post::class);
+    }
+
+    public function galleries()
+    {
+        return $this->hasMany(Gallery::class);
+    }
+
+    public function videos()
+    {
+        return $this->hasMany(Video::class);
     }
 }
