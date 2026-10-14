@@ -23,6 +23,7 @@ RUN echo 'server { \n\
     listen 8080; \n\
     root /var/www/html/public; \n\
     index index.php; \n\
+    client_max_body_size 64M; \n\
     location / { try_files $uri $uri/ /index.php?$query_string; } \n\
     location ~ \\.php$ { \n\
         fastcgi_pass 127.0.0.1:9000; \n\
