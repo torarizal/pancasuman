@@ -21,27 +21,33 @@
                 {{-- Preview Box pada Latar Terang & Gelap --}}
                 <div class="space-y-3">
                     <p class="text-[11px] text-slate-500 font-mono">Tampilan pada latar terang (Navbar Publik):</p>
-                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center min-h-[90px]">
+                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-center gap-2.5 min-h-[90px]">
                         @if($siteLogo)
-                            <img src="{{ asset('storage/' . $siteLogo) }}" alt="Logo Pancasuman" class="max-h-12 max-w-full object-contain">
-                        @else
-                            <div class="flex items-center gap-2">
-                                <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white text-xs font-bold">P</div>
-                                <span class="font-extrabold text-sm text-slate-800">PANCASUMAN</span>
+                            <div class="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center bg-white shadow-xs border border-slate-200/80 shrink-0">
+                                <img src="{{ asset('storage/' . $siteLogo) }}" alt="Logo Pancasuman" class="w-full h-full object-contain p-0.5">
                             </div>
+                        @else
+                            <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white text-xs font-bold shrink-0">P</div>
                         @endif
+                        <div class="flex flex-col">
+                            <span class="font-extrabold text-sm text-slate-800 leading-tight">PANCASUMAN</span>
+                            <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Portal Literasi</span>
+                        </div>
                     </div>
 
                     <p class="text-[11px] text-slate-500 font-mono">Tampilan pada latar gelap (Dev Console):</p>
-                    <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center min-h-[90px]">
+                    <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 flex items-center gap-2.5 min-h-[90px]">
                         @if($siteLogo)
-                            <img src="{{ asset('storage/' . $siteLogo) }}" alt="Logo Pancasuman" class="max-h-12 max-w-full object-contain">
-                        @else
-                            <div class="flex items-center gap-2">
-                                <div class="w-8 h-8 rounded-lg bg-purple-600 flex items-center justify-center text-white text-xs font-bold">P</div>
-                                <span class="font-extrabold text-sm text-white">PANCASUMAN</span>
+                            <div class="w-9 h-9 rounded-xl overflow-hidden flex items-center justify-center bg-slate-900 shadow-xs border border-slate-800 shrink-0">
+                                <img src="{{ asset('storage/' . $siteLogo) }}" alt="Logo Pancasuman" class="w-full h-full object-contain p-0.5">
                             </div>
+                        @else
+                            <div class="w-9 h-9 rounded-xl bg-purple-600 flex items-center justify-center text-white text-xs font-bold shrink-0">P</div>
                         @endif
+                        <div class="flex flex-col">
+                            <span class="font-extrabold text-sm text-white leading-tight">PANCASUMAN</span>
+                            <span class="text-[10px] uppercase font-mono text-purple-400 tracking-widest">DEV CONSOLE</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -80,8 +86,14 @@
                 {{-- Live Preview Box Baru --}}
                 <div id="new-logo-preview-wrapper" class="hidden space-y-2 pt-2">
                     <p class="text-xs font-mono uppercase text-slate-400">Pratinjau Berkas Terpilih:</p>
-                    <div class="p-4 rounded-xl bg-slate-900 border border-purple-800/60 flex items-center justify-center">
-                        <img id="new-logo-preview" src="" alt="Pratinjau Logo Baru" class="max-h-16 max-w-full object-contain">
+                    <div class="p-4 rounded-xl bg-slate-900 border border-purple-800/60 flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center bg-white shadow-xs border border-slate-700 shrink-0">
+                            <img id="new-logo-preview" src="" alt="Pratinjau Logo Baru" class="w-full h-full object-contain p-0.5">
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-extrabold text-sm text-white leading-tight">PANCASUMAN</span>
+                            <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Portal Literasi</span>
+                        </div>
                     </div>
                 </div>
 
@@ -93,7 +105,7 @@
                         <span>Panduan Format Logo:</span>
                     </div>
                     <ul class="list-disc list-inside space-y-1 text-slate-400 text-[11px]">
-                        <li>Rasio horizontal atau persegi (misal: 300x80 px atau 512x512 px).</li>
+                        <li>Rasio persegi / kotak 1:1 (disarankan: 512x512 px atau minimal 256x256 px).</li>
                         <li>Format terbaik: PNG transparan atau WebP tanpa latar belakang warna.</li>
                         <li>Maksimal ukuran file: 2 MB. Gambar otomatis dikompres untuk kecepatan muat.</li>
                     </ul>

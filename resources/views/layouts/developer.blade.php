@@ -20,18 +20,20 @@
         <div class="h-18 px-6 border-b border-slate-800/80 flex items-center justify-between">
             <a href="{{ route('admin.developer.dashboard') }}" class="flex items-center gap-2.5 group">
                 @if(!empty($siteLogo))
-                    <img src="{{ asset('storage/' . $siteLogo) }}" alt="Logo" class="max-h-9 max-w-[140px] object-contain">
+                    <div class="w-9 h-9 rounded-xl overflow-hidden flex items-center justify-center bg-slate-900 shadow-xs border border-slate-800 group-hover:scale-105 transition-transform shrink-0">
+                        <img src="{{ asset('storage/' . $siteLogo) }}" alt="Logo" class="w-full h-full object-contain p-0.5">
+                    </div>
                 @else
-                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white shadow-sm shadow-purple-500/20 group-hover:scale-105 transition-transform">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white shadow-sm shadow-purple-500/20 group-hover:scale-105 transition-transform shrink-0">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                         </svg>
                     </div>
-                    <div>
-                        <span class="text-sm font-black tracking-tight text-white block leading-tight">PANCASUMAN</span>
-                        <span class="text-[10px] font-mono uppercase tracking-widest text-purple-400 block -mt-0.5">DEV CONSOLE</span>
-                    </div>
                 @endif
+                <div>
+                    <span class="text-sm font-black tracking-tight text-white block leading-tight">PANCASUMAN</span>
+                    <span class="text-[10px] font-mono uppercase tracking-widest text-purple-400 block -mt-0.5">DEV CONSOLE</span>
+                </div>
             </a>
         </div>
 
@@ -166,16 +168,18 @@
         <div class="h-18 px-6 border-b border-slate-800 flex items-center justify-between">
             <a href="{{ route('admin.developer.dashboard') }}" class="flex items-center gap-2.5">
                 @if(!empty($siteLogo))
-                    <img src="{{ asset('storage/' . $siteLogo) }}" alt="Logo" class="max-h-8 max-w-[130px] object-contain">
+                    <div class="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center bg-slate-900 shadow-xs border border-slate-800 shrink-0">
+                        <img src="{{ asset('storage/' . $siteLogo) }}" alt="Logo" class="w-full h-full object-contain p-0.5">
+                    </div>
                 @else
-                    <div class="w-8 h-8 rounded-xl bg-purple-600 text-white flex items-center justify-center font-bold text-xs shadow-xs">
+                    <div class="w-8 h-8 rounded-xl bg-purple-600 text-white flex items-center justify-center font-bold text-xs shadow-xs shrink-0">
                         DEV
                     </div>
-                    <div>
-                        <span class="text-sm font-black tracking-tight text-white block leading-tight">PANCASUMAN</span>
-                        <span class="text-[9px] font-mono uppercase tracking-widest text-purple-400 block -mt-0.5">DEV CONSOLE</span>
-                    </div>
                 @endif
+                <div>
+                    <span class="text-sm font-black tracking-tight text-white block leading-tight">PANCASUMAN</span>
+                    <span class="text-[9px] font-mono uppercase tracking-widest text-purple-400 block -mt-0.5">DEV CONSOLE</span>
+                </div>
             </a>
             <button id="dev-sidebar-close" type="button" class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer" aria-label="Tutup Menu">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
