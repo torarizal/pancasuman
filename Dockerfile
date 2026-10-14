@@ -1,50 +1,44 @@
 FROM php:8.4-fpm
 
-# Install dependencies & ekstensi PHP
 RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    zip \
-    unzip \
-    nginx \
-    libzip-dev \
-    gettext-base
-
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
+    libzip-dev zip unzip git nodejs npm nginx \
+    && docker-php-ext-install pdo_mysql zip \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 COPY . .
 
-ENV COMPOSER_ALLOW_SUPERUSER=1
-RUN composer install --no-dev --optimize-autoloader --no-interaction
+RUN composer install --no-dev --optimize-autoloader
+RUN npm install && npm run build
 
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chown -R www-data:www-data storage bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
 
-# Template Nginx menggunakan variabel $PORT dari Railway
-RUN echo 'server {\n\
-    listen ${PORT};\n\
-    index index.php index.html;\n\
-    root /var/www/html/public;\n\
-    location / {\n\
-        try_files $uri $uri/ /index.php?$query_string;\n\
-    }\n\
-    location ~ \.php$ {\n\
-        fastcgi_pass 127.0.0.1:9000;\n\
-        fastcgi_index index.php;\n\
-        include fastcgi_params;\n\
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;\n\
-    }\n\
+EXPOSE 8080
+ENV PORT=8080
+
+RUN echo 'server { \n\
+    listen 8080; \n\
+    root /var/www/html/public; \n\
+    index index.php; \n\
+    client_max_body_size 64M; \n\
+    location / { try_files $uri $uri/ /index.php?$query_string; } \n\
+    location ~ \\.php$ { \n\
+        fastcgi_pass 127.0.0.1:9000; \n\
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name; \n\
+        include fastcgi_params; \n\
+    } \n\
 }' > /etc/nginx/sites-available/default
 
-# Salin script entrypoint
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-ENTRYPOINT ["docker-entrypoint.sh"]
+RUN ln -sf /dev/stdout /var/log/nginx/access.log \
+    && ln -sf /dev/stderr /var/log/nginx/error.log
+
+CMD php artisan storage:link && \
+    php artisan config:clear && \
+    php artisan cache:clear && \
+    php artisan view:clear && \
+    php artisan migrate --force && \
+    php-fpm -D && \
+    nginx -g "daemon off;"
