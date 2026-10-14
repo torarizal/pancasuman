@@ -44,7 +44,6 @@
                 Peran / Hak Akses (Role) <span class="text-rose-400">*</span>
             </label>
             <select name="role" id="role" required class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-sm text-white focus:outline-none focus:border-purple-500">
-                <option value="penulis" {{ old('role', $user->role) == 'penulis' ? 'selected' : '' }}>Penulis (Hanya membuat & mengelola tulisan/series miliknya)</option>
                 <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin (Mengelola artikel, series, galeri kegiatan, dan video)</option>
                 <option value="developer" {{ old('role', $user->role) == 'developer' ? 'selected' : '' }}>Developer (Akses penuh: kelola akun, kategori, logo, dan sistem)</option>
             </select>
