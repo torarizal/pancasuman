@@ -21,18 +21,20 @@
         <div class="h-18 px-6 border-b border-slate-100 flex items-center justify-between">
             <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2.5 group">
                 @if(!empty($siteLogo))
-                    <img src="{{ asset('storage/' . $siteLogo) }}" alt="Logo" class="max-h-9 max-w-[140px] object-contain">
+                    <div class="w-9 h-9 rounded-xl overflow-hidden flex items-center justify-center bg-white shadow-xs border border-slate-200/80 group-hover:scale-105 transition-transform shrink-0">
+                        <img src="{{ asset('storage/' . $siteLogo) }}" alt="Logo" class="w-full h-full object-contain p-0.5">
+                    </div>
                 @else
-                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-blue-500 flex items-center justify-center text-white shadow-sm shadow-blue-500/20 group-hover:scale-105 transition-transform">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-blue-500 flex items-center justify-center text-white shadow-sm shadow-blue-500/20 group-hover:scale-105 transition-transform shrink-0">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                         </svg>
                     </div>
-                    <div>
-                        <span class="text-base font-black tracking-tight text-slate-900 block leading-tight">PANCASUMAN</span>
-                        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block -mt-0.5">Admin Workspace</span>
-                    </div>
                 @endif
+                <div>
+                    <span class="text-base font-black tracking-tight text-slate-900 block leading-tight">PANCASUMAN</span>
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block -mt-0.5">Admin Workspace</span>
+                </div>
             </a>
         </div>
 
@@ -159,18 +161,17 @@
     <aside id="admin-mobile-drawer" class="fixed inset-y-0 left-0 w-72 bg-white z-50 transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden flex flex-col shadow-2xl border-r border-slate-200">
         <div class="h-18 px-6 border-b border-slate-100 flex items-center justify-between">
             <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold text-xs shadow-xs">
-                    P
-                </div>
                 @if(!empty($siteLogo))
-                    <img src="{{ asset('storage/' . $siteLogo) }}" alt="Logo" class="max-h-8 max-w-[120px] object-contain">
-                @else
-                    <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white text-xs font-bold">P</div>
-                    <div>
-                        <span class="text-sm font-black tracking-tight text-slate-900 block leading-tight">PANCASUMAN</span>
-                        <span class="text-[9px] font-bold uppercase tracking-wider text-slate-400 block -mt-0.5">Admin Workspace</span>
+                    <div class="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center bg-white shadow-xs border border-slate-200/80 shrink-0">
+                        <img src="{{ asset('storage/' . $siteLogo) }}" alt="Logo" class="w-full h-full object-contain p-0.5">
                     </div>
+                @else
+                    <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white text-xs font-bold shadow-xs shrink-0">P</div>
                 @endif
+                <div>
+                    <span class="text-sm font-black tracking-tight text-slate-900 block leading-tight">PANCASUMAN</span>
+                    <span class="text-[9px] font-bold uppercase tracking-wider text-slate-400 block -mt-0.5">Admin Workspace</span>
+                </div>
             </a>
             <button id="admin-sidebar-close" type="button" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition cursor-pointer" aria-label="Tutup Menu">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
