@@ -65,74 +65,74 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {{-- Total Artikel --}}
-        <div class="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-2xs hover:border-blue-300 transition-all flex flex-col justify-between">
+        <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-2xs hover:border-blue-300 dark:hover:border-blue-500/50 transition-all flex flex-col justify-between">
             <div class="flex items-center justify-between">
-                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Artikel</span>
-                <div class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Total Artikel</span>
+                <div class="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
                     </svg>
                 </div>
             </div>
             <div class="mt-4">
-                <div class="text-3xl font-black text-slate-900 tracking-tight">{{ $totalPosts }}</div>
-                <div class="flex items-center gap-2 mt-1.5 text-xs text-slate-500">
-                    <span class="text-emerald-600 font-semibold">{{ $publishedPosts }} terbit</span>
+                <div class="text-3xl font-black text-slate-900 dark:text-slate-100 tracking-tight">{{ $totalPosts }}</div>
+                <div class="flex items-center gap-2 mt-1.5 text-xs text-slate-500 dark:text-slate-400">
+                    <span class="text-emerald-600 dark:text-emerald-400 font-semibold">{{ $publishedPosts }} terbit</span>
                     <span>&bull;</span>
-                    <span class="text-amber-600 font-semibold">{{ $draftPosts }} draft</span>
+                    <span class="text-amber-600 dark:text-amber-400 font-semibold">{{ $draftPosts }} draft</span>
                 </div>
             </div>
         </div>
 
         {{-- Total Master Series --}}
-        <div class="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-2xs hover:border-purple-300 transition-all flex flex-col justify-between">
+        <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-2xs hover:border-purple-300 dark:hover:border-purple-500/50 transition-all flex flex-col justify-between">
             <div class="flex items-center justify-between">
-                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Master Series</span>
-                <div class="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Master Series</span>
+                <div class="w-9 h-9 rounded-xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                     </svg>
                 </div>
             </div>
             <div class="mt-4">
-                <div class="text-3xl font-black text-slate-900 tracking-tight">{{ $totalSeries }}</div>
-                <div class="text-xs text-purple-600 font-medium mt-1.5 flex items-center gap-1">
+                <div class="text-3xl font-black text-slate-900 dark:text-slate-100 tracking-tight">{{ $totalSeries }}</div>
+                <div class="text-xs text-purple-600 dark:text-purple-400 font-medium mt-1.5 flex items-center gap-1">
                     <a href="{{ route('admin.series.index') }}" class="hover:underline">Lihat semua series &rarr;</a>
                 </div>
             </div>
         </div>
 
         {{-- Total Kategori Rubrik --}}
-        <div class="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-2xs hover:border-blue-300 transition-all flex flex-col justify-between">
+        <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-2xs hover:border-blue-300 dark:hover:border-blue-500/50 transition-all flex flex-col justify-between">
             <div class="flex items-center justify-between">
-                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Rubrik / Kategori</span>
-                <div class="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Rubrik / Kategori</span>
+                <div class="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
                     </svg>
                 </div>
             </div>
             <div class="mt-4">
-                <div class="text-3xl font-black text-slate-900 tracking-tight">{{ $totalCategories }}</div>
-                <div class="text-xs text-indigo-600 font-medium mt-1.5 flex items-center gap-1">
+                <div class="text-3xl font-black text-slate-900 dark:text-slate-100 tracking-tight">{{ $totalCategories }}</div>
+                <div class="text-xs text-indigo-600 dark:text-indigo-400 font-medium mt-1.5 flex items-center gap-1">
                     <a href="{{ route('admin.categories.index') }}" class="hover:underline">Kelola rubrik &rarr;</a>
                 </div>
             </div>
         </div>
 
         {{-- Tulisan Saya --}}
-        <div class="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-2xs hover:border-emerald-300 transition-all flex flex-col justify-between">
+        <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-2xs hover:border-emerald-300 dark:hover:border-emerald-500/50 transition-all flex flex-col justify-between">
             <div class="flex items-center justify-between">
-                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Tulisan Saya</span>
-                <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Tulisan Saya</span>
+                <div class="w-9 h-9 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                     </svg>
                 </div>
             </div>
             <div class="mt-4">
-                <div class="text-3xl font-black text-slate-900 tracking-tight">{{ $myPosts }}</div>
-                <div class="text-xs text-emerald-600 font-medium mt-1.5 flex items-center gap-1">
+                <div class="text-3xl font-black text-slate-900 dark:text-slate-100 tracking-tight">{{ $myPosts }}</div>
+                <div class="text-xs text-emerald-600 dark:text-emerald-400 font-medium mt-1.5 flex items-center gap-1">
                     <span>Kontribusi aktif Anda</span>
                 </div>
             </div>
@@ -144,13 +144,13 @@
         $recentPosts = \App\Models\Post::with(['category', 'series', 'author'])->latest()->take(5)->get();
     @endphp
 
-    <div class="bg-white rounded-3xl border border-slate-200/90 shadow-xs overflow-hidden">
-        <div class="p-5 sm:p-6 border-b border-slate-100 flex items-center justify-between">
+    <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/90 dark:border-slate-800 shadow-xs overflow-hidden">
+        <div class="p-5 sm:p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
             <div>
-                <h3 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight">Tulisan Terbaru</h3>
-                <p class="text-xs text-slate-400 mt-0.5">5 artikel terakhir yang didaftarkan ke sistem.</p>
+                <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-slate-100 tracking-tight">Tulisan Terbaru</h3>
+                <p class="text-xs text-slate-400 dark:text-slate-500 mt-0.5">5 artikel terakhir yang didaftarkan ke sistem.</p>
             </div>
-            <a href="{{ route('admin.posts.index') }}" class="text-xs font-semibold text-blue-600 hover:text-blue-700 hover:underline flex items-center gap-1">
+            <a href="{{ route('admin.posts.index') }}" class="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:underline flex items-center gap-1">
                 <span>Buka Semua Artikel</span>
                 <span>&rarr;</span>
             </a>
@@ -158,7 +158,7 @@
 
         <div class="overflow-x-auto">
             <table class="w-full text-left text-sm">
-                <thead class="bg-slate-50 border-b border-slate-100 text-slate-500 text-xs font-semibold uppercase tracking-wider">
+                <thead class="bg-slate-50 dark:bg-slate-800/60 border-b border-slate-100 dark:border-slate-800 text-slate-500 dark:text-slate-400 text-xs font-semibold uppercase tracking-wider">
                     <tr>
                         <th class="p-4">Artikel / Judul</th>
                         <th class="p-4">Rubrik</th>
@@ -168,61 +168,61 @@
                         <th class="p-4 text-center">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-100">
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
                     @forelse($recentPosts as $post)
-                    <tr class="hover:bg-slate-50/70 transition">
+                    <tr class="hover:bg-slate-50/70 dark:hover:bg-slate-800/50 transition">
                         <td class="p-4">
                             <div class="flex items-center gap-3">
                                 @if($post->featured_image)
-                                    <img src="{{ asset('storage/' . $post->featured_image) }}" alt="" loading="lazy" decoding="async" class="w-10 h-10 rounded-xl object-cover border border-slate-200 shrink-0 shadow-2xs">
+                                    <img src="{{ asset('storage/' . $post->featured_image) }}" alt="" loading="lazy" decoding="async" class="w-10 h-10 rounded-xl object-cover border border-slate-200 dark:border-slate-700 shrink-0 shadow-2xs">
                                 @else
-                                    <div class="w-10 h-10 rounded-xl bg-slate-100 border border-slate-200/80 flex items-center justify-center text-slate-400 shrink-0">
+                                    <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 flex items-center justify-center text-slate-400 dark:text-slate-500 shrink-0">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                         </svg>
                                     </div>
                                 @endif
                                 <div class="min-w-0">
-                                    <a href="{{ route('admin.posts.edit', $post->id) }}" class="font-bold text-slate-800 hover:text-blue-600 transition block truncate max-w-xs sm:max-w-sm">
+                                    <a href="{{ route('admin.posts.edit', $post->id) }}" class="font-bold text-slate-800 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 transition block truncate max-w-xs sm:max-w-sm">
                                         {{ $post->title }}
                                     </a>
-                                    <span class="text-xs text-slate-400 font-mono block">{{ $post->published_at ? $post->published_at->format('d M Y') : $post->created_at->format('d M Y') }}</span>
+                                    <span class="text-xs text-slate-400 dark:text-slate-500 font-mono block">{{ $post->published_at ? $post->published_at->format('d M Y') : $post->created_at->format('d M Y') }}</span>
                                 </div>
                             </div>
                         </td>
                         <td class="p-4">
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-100">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-blue-900/40">
                                 {{ $post->category->name ?? 'Umum' }}
                             </span>
                         </td>
-                        <td class="p-4 text-xs text-slate-600">
+                        <td class="p-4 text-xs text-slate-600 dark:text-slate-300">
                             @if($post->series)
-                                <span class="font-semibold text-purple-700">{{ $post->series->title }}</span>
+                                <span class="font-semibold text-purple-700 dark:text-purple-400">{{ $post->series->title }}</span>
                                 @if($post->volume_number)
-                                    <span class="text-[10px] bg-purple-100 text-purple-800 px-1.5 py-0.5 rounded font-bold ml-1">Vol. {{ $post->volume_number }}</span>
+                                    <span class="text-[10px] bg-purple-100 dark:bg-purple-950/80 text-purple-800 dark:text-purple-300 px-1.5 py-0.5 rounded font-bold ml-1">Vol. {{ $post->volume_number }}</span>
                                 @endif
                             @else
-                                <span class="text-slate-400">Tulisan Lepas</span>
+                                <span class="text-slate-400 dark:text-slate-500">Tulisan Lepas</span>
                             @endif
                         </td>
-                        <td class="p-4 text-xs text-slate-600 font-medium">
+                        <td class="p-4 text-xs text-slate-600 dark:text-slate-300 font-medium">
                             {{ $post->author->name ?? 'Anonim' }}
                         </td>
                         <td class="p-4">
                             @if($post->status === 'published')
-                                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/50">
                                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                                     <span>Published</span>
                                 </span>
                             @else
-                                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200">
+                                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-50 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800/50">
                                     <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
                                     <span>Draft</span>
                                 </span>
                             @endif
                         </td>
                         <td class="p-4 text-center">
-                            <a href="{{ route('admin.posts.edit', $post->id) }}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-700 hover:text-blue-600 hover:bg-blue-50 border border-slate-200 hover:border-blue-200 transition">
+                            <a href="{{ route('admin.posts.edit', $post->id) }}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-blue-200 dark:hover:border-blue-500/40 transition">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                 </svg>
@@ -232,7 +232,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="6" class="p-8 text-center text-slate-400 text-sm">
+                        <td colspan="6" class="p-8 text-center text-slate-400 dark:text-slate-500 text-sm">
                             Belum ada artikel yang dibuat. Silakan klik tombol "Tulis Artikel Baru" di atas.
                         </td>
                     </tr>

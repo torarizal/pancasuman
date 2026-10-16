@@ -183,3 +183,35 @@
     background: linear-gradient(to right, transparent, #334155, transparent);
 }
 
+/* Summernote Editor Dark Mode Styling */
+:where(.dark, .dark *) .note-editor.note-frame {
+    border-color: #334155 !important;
+    background-color: #0f172a !important;
+    border-radius: 0.75rem !important;
+    overflow: hidden !important;
+}
+:where(.dark, .dark *) .note-editor.note-frame .note-toolbar {
+    background-color: #1e293b !important;
+    border-bottom: 1px solid #334155 !important;
+}
+:where(.dark, .dark *) .note-editor.note-frame .note-btn {
+    background-color: #334155 !important;
+    border-color: #475569 !important;
+    color: #e2e8f0 !important;
+}
+:where(.dark, .dark *) .note-editor.note-frame .note-btn:hover {
+    background-color: #475569 !important;
+    color: #ffffff !important;
+}
+:where(.dark, .dark *) .note-editor.note-frame .note-editing-area .note-editable {
+    background-color: #0f172a !important;
+    color: #f1f5f9 !important;
+}
+:where(.dark, .dark *) .note-editor.note-frame .note-statusbar {
+    background-color: #1e293b !important;
+    border-top: 1px solid #334155 !important;
+}
+:where(.dark, .dark *) .note-editor.note-frame .note-statusbar .note-resizebar .note-icon-bar {
+    border-top-color: #64748b !important;
+}
+
