@@ -10,9 +10,24 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
 
+    {{-- Anti-FOUC Dark Mode Initialization --}}
+    <script>
+        (function() {
+            try {
+                const savedTheme = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            } catch (e) {}
+        })();
+    </script>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-slate-100 text-slate-800 font-sans antialiased flex h-screen overflow-hidden">
+<body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans antialiased flex h-screen overflow-hidden transition-colors duration-200">
 
     {{-- Sidebar Admin --}}
     <aside class="w-64 bg-white border-r border-slate-200/90 flex flex-col shrink-0 z-30 shadow-xs hidden md:flex">
@@ -312,10 +327,20 @@
                 @endif
 
                 {{-- Link Website Cepat --}}
-                <a href="{{ route('home') }}" target="_blank" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 hover:text-blue-600 hover:border-blue-300 text-xs font-semibold transition hidden sm:inline-flex items-center gap-1">
+                <a href="{{ route('home') }}" target="_blank" class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-300 dark:hover:border-blue-700 text-xs font-semibold transition hidden sm:inline-flex items-center gap-1">
                     <span>Lihat Web</span>
                     <span class="text-[10px]">&nearr;</span>
                 </a>
+
+                {{-- Tombol Switch Dark Mode (Admin Topbar) --}}
+                <button id="admin-theme-toggle" type="button" class="relative inline-flex items-center justify-center w-9 h-9 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-amber-400 shadow-2xs hover:shadow-xs transition cursor-pointer group focus:outline-hidden" aria-label="Alihkan tema" title="Beralih Tema (Dark/Light)">
+                    <svg id="admin-theme-sun" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 hidden dark:block text-amber-400 group-hover:rotate-45 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    <svg id="admin-theme-moon" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 block dark:hidden text-slate-600 group-hover:text-blue-600 group-hover:-rotate-12 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                </button>
 
                 {{-- Logout Button Mobile --}}
                 <form action="{{ route('admin.logout') }}" method="POST" class="md:hidden inline">
@@ -330,7 +355,7 @@
         </header>
 
         {{-- Content Area --}}
-        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-slate-50/80 p-4 sm:p-8">
+        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-slate-50/80 dark:bg-slate-950 p-4 sm:p-8">
             <div class="max-w-7xl mx-auto space-y-6">
                 {{-- Flash Message Success --}}
                 @if(session('success'))

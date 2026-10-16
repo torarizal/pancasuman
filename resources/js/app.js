@@ -168,4 +168,77 @@ document.addEventListener('DOMContentLoaded', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
+
+    // ==========================================
+    // 6. Dark Mode / Theme Switcher
+    // ==========================================
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const mobileThemeToggleBtn = document.getElementById('mobile-theme-toggle');
+    const adminThemeToggleBtn = document.getElementById('admin-theme-toggle');
+    const mobileThemeStatusText = document.getElementById('mobile-theme-status-text');
+
+    const updateThemeUI = (isDark) => {
+        if (mobileThemeToggleBtn) {
+            mobileThemeToggleBtn.setAttribute('aria-checked', isDark ? 'true' : 'false');
+        }
+        if (mobileThemeStatusText) {
+            mobileThemeStatusText.textContent = isDark ? 'Mode Gelap' : 'Mode Terang';
+        }
+        if (themeToggleBtn) {
+            themeToggleBtn.setAttribute('aria-label', isDark ? 'Beralih ke mode terang' : 'Beralih ke mode gelap');
+            themeToggleBtn.setAttribute('title', isDark ? 'Beralih ke Mode Terang' : 'Beralih ke Mode Gelap');
+        }
+        if (adminThemeToggleBtn) {
+            adminThemeToggleBtn.setAttribute('aria-label', isDark ? 'Beralih ke mode terang' : 'Beralih ke mode gelap');
+            adminThemeToggleBtn.setAttribute('title', isDark ? 'Beralih ke Mode Terang' : 'Beralih ke Mode Gelap');
+        }
+    };
+
+    const toggleTheme = () => {
+        const isDark = document.documentElement.classList.toggle('dark');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        updateThemeUI(isDark);
+    };
+
+    // Initial state sync based on active document class
+    const initialIsDark = document.documentElement.classList.contains('dark');
+    updateThemeUI(initialIsDark);
+
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleTheme();
+        });
+    }
+
+    if (mobileThemeToggleBtn) {
+        mobileThemeToggleBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleTheme();
+        });
+    }
+
+    if (adminThemeToggleBtn) {
+        adminThemeToggleBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleTheme();
+        });
+    }
+
+    // System theme change listener (only applies if no manual preference has been set)
+    try {
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        mediaQuery.addEventListener('change', (e) => {
+            if (!localStorage.getItem('theme')) {
+                if (e.matches) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+                updateThemeUI(e.matches);
+            }
+        });
+    } catch (err) {
+        // Fallback for older browsers
+    }
 });

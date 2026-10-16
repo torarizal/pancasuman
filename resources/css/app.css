@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
@@ -15,6 +17,11 @@
         backdrop-filter: blur(14px);
         -webkit-backdrop-filter: blur(14px);
     }
+    :where(.dark, .dark *) .glass-nav {
+        background-color: rgba(2, 6, 23, 0.85);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+    }
 
     .card-lift {
         transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.28s ease;
@@ -23,11 +30,19 @@
         transform: translateY(-4px);
         box-shadow: 0 16px 30px -8px rgba(15, 23, 42, 0.08), 0 6px 12px -4px rgba(15, 23, 42, 0.03);
     }
+    :where(.dark, .dark *) .card-lift:hover {
+        box-shadow: 0 16px 30px -8px rgba(0, 0, 0, 0.55), 0 6px 12px -4px rgba(0, 0, 0, 0.35);
+    }
 
     .badge-primary {
         background: linear-gradient(135deg, #eff6ff 0%, #e0e7ff 100%);
         color: #1d4ed8;
         border: 1px solid rgba(191, 219, 254, 0.7);
+    }
+    :where(.dark, .dark *) .badge-primary {
+        background: linear-gradient(135deg, rgba(30, 58, 138, 0.45) 0%, rgba(49, 46, 129, 0.45) 100%);
+        color: #93c5fd;
+        border: 1px solid rgba(59, 130, 246, 0.35);
     }
 
     .badge-series {
@@ -35,11 +50,21 @@
         color: #7e22ce;
         border: 1px solid rgba(233, 213, 255, 0.7);
     }
+    :where(.dark, .dark *) .badge-series {
+        background: linear-gradient(135deg, rgba(88, 28, 135, 0.45) 0%, rgba(107, 33, 168, 0.45) 100%);
+        color: #d8b4fe;
+        border: 1px solid rgba(168, 85, 247, 0.35);
+    }
 
     .badge-amber {
         background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
         color: #b45309;
         border: 1px solid rgba(253, 230, 138, 0.7);
+    }
+    :where(.dark, .dark *) .badge-amber {
+        background: linear-gradient(135deg, rgba(120, 53, 15, 0.45) 0%, rgba(146, 64, 14, 0.45) 100%);
+        color: #fde68a;
+        border: 1px solid rgba(245, 158, 11, 0.35);
     }
 }
 
@@ -48,6 +73,9 @@
     color: #334155;
     line-height: 1.9;
     font-size: 1.075rem;
+}
+:where(.dark, .dark *) .prose-editorial {
+    color: #cbd5e1;
 }
 
 .prose-editorial p {
@@ -65,11 +93,20 @@
     margin-bottom: 1rem;
     line-height: 1.35;
 }
+:where(.dark, .dark *) .prose-editorial h1,
+:where(.dark, .dark *) .prose-editorial h2,
+:where(.dark, .dark *) .prose-editorial h3,
+:where(.dark, .dark *) .prose-editorial h4 {
+    color: #f8fafc;
+}
 
 .prose-editorial h2 {
     font-size: 1.625rem;
     border-bottom: 1px solid #f1f5f9;
     padding-bottom: 0.5rem;
+}
+:where(.dark, .dark *) .prose-editorial h2 {
+    border-bottom-color: #1e293b;
 }
 
 .prose-editorial h3 {
@@ -87,6 +124,11 @@
     margin: 2rem 0;
     font-size: 1.1rem;
 }
+:where(.dark, .dark *) .prose-editorial blockquote {
+    background: linear-gradient(to right, rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.6));
+    color: #e2e8f0;
+    border-left-color: #60a5fa;
+}
 
 .prose-editorial blockquote::before {
     content: "“";
@@ -97,6 +139,9 @@
     color: rgba(59, 130, 246, 0.15);
     font-family: serif;
     line-height: 1;
+}
+:where(.dark, .dark *) .prose-editorial blockquote::before {
+    color: rgba(96, 165, 250, 0.25);
 }
 
 .prose-editorial ul,
@@ -124,11 +169,17 @@
     max-width: 100%;
     height: auto;
 }
+:where(.dark, .dark *) .prose-editorial img {
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+}
 
 .prose-editorial hr {
     border: 0;
     height: 1px;
     background: linear-gradient(to right, transparent, #cbd5e1, transparent);
     margin: 2.5rem 0;
+}
+:where(.dark, .dark *) .prose-editorial hr {
+    background: linear-gradient(to right, transparent, #334155, transparent);
 }
 

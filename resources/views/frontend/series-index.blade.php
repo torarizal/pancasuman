@@ -26,9 +26,9 @@
     {{-- Grid Series --}}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @forelse($seriesList as $series)
-        <div class="card-lift bg-white border border-slate-200/80 hover:border-purple-300 rounded-3xl overflow-hidden shadow-xs flex flex-col justify-between group transition-all duration-300">
+        <div class="card-lift bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 hover:border-purple-300 dark:hover:border-purple-500/50 rounded-3xl overflow-hidden shadow-xs flex flex-col justify-between group transition-all duration-300">
             @if($series->cover_image)
-            <div class="h-48 w-full overflow-hidden bg-purple-950/5">
+            <div class="h-48 w-full overflow-hidden bg-purple-950/5 dark:bg-purple-950/20">
                 <img src="{{ asset('storage/' . $series->cover_image) }}" alt="{{ $series->title }}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
             </div>
             @endif
@@ -40,25 +40,25 @@
                         </span>
                     </div>
                     
-                    <h3 class="text-xl font-bold text-slate-900 group-hover:text-purple-700 transition mb-3 leading-snug">
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition mb-3 leading-snug">
                         <a href="{{ route('series.show', $series->slug) }}">
                             {{ $series->title }}
                         </a>
                     </h3>
                     
-                    <p class="text-slate-600 text-sm line-clamp-3 leading-relaxed mb-6">
+                    <p class="text-slate-600 dark:text-slate-400 text-sm line-clamp-3 leading-relaxed mb-6">
                         {{ $series->description ?? 'Tidak ada deskripsi.' }}
                     </p>
                 </div>
                 
-                <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                <div class="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
                     <div class="flex items-center gap-2">
                         <div class="w-6 h-6 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-600 text-white font-bold flex items-center justify-center text-[10px]">
                             {{ substr($series->author->name ?? 'A', 0, 1) }}
                         </div>
-                        <span class="font-medium text-slate-700 truncate max-w-[120px]">{{ $series->author->name ?? 'Anonim' }}</span>
+                        <span class="font-medium text-slate-700 dark:text-slate-300 truncate max-w-[120px]">{{ $series->author->name ?? 'Anonim' }}</span>
                     </div>
-                    <a href="{{ route('series.show', $series->slug) }}" class="inline-flex items-center gap-1 text-purple-700 font-semibold group-hover:translate-x-0.5 transition-transform">
+                    <a href="{{ route('series.show', $series->slug) }}" class="inline-flex items-center gap-1 text-purple-700 dark:text-purple-400 font-semibold group-hover:translate-x-0.5 transition-transform">
                         <span>Buka Bab</span>
                         <span>&rarr;</span>
                     </a>
@@ -66,13 +66,13 @@
             </div>
         </div>
         @empty
-        <div class="col-span-full text-center py-16 bg-white rounded-3xl border border-dashed border-slate-200 space-y-3">
-            <div class="w-12 h-12 mx-auto rounded-full bg-slate-100 text-slate-400 flex items-center justify-center">
+        <div class="col-span-full text-center py-16 bg-white dark:bg-slate-900 rounded-3xl border border-dashed border-slate-200 dark:border-slate-800 space-y-3">
+            <div class="w-12 h-12 mx-auto rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 flex items-center justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                 </svg>
             </div>
-            <p class="text-slate-500 font-medium text-sm">Belum ada Master Series yang tersedia saat ini.</p>
+            <p class="text-slate-500 dark:text-slate-400 font-medium text-sm">Belum ada Master Series yang tersedia saat ini.</p>
         </div>
         @endforelse
     </div>
